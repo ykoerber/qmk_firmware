@@ -28,9 +28,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SETTINGS 6
 #define INTJ 7
 #define CHAR_MODS 8
+#define MOUSE_LAYER 9
 
-#define PTT ALL_T(KC_G)
-#define MUTE ALL_T(KC_M)
+#define PTT HYPR(KC_G)
+#define MUTE HYPR(KC_M)
+#define BOOKMARKS S(KC_F11)
+#define IJ_ACTION C(S(KC_A))
+#define IJ_CLASSES C(S(KC_K))
+#define IJ_FILES C(S(KC_N))
+#define IJ_DEBUG S(A(KC_F9))
+#define IJ_RUN S(A(KC_F10))
+#define IJ_STOP C(KC_F2)
+#define ACE_JUMP C(KC_SCLN)
 
 // Tap Dance declarations
 enum {
@@ -40,7 +49,6 @@ enum {
 
 // Tap Dance definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Escape, twice for Caps Lock
     [TD_INTJ_DEBUG] = ACTION_TAP_DANCE_DOUBLE(S(A(KC_F9)), C(KC_F2)),
     [TD_INTJ_FILES] = ACTION_TAP_DANCE_DOUBLE(S(C(KC_K)), C(S(KC_N))),
 };
@@ -53,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_BSPC,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_ENTER,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, C(KC_SCLN),  KC_DEL,
+      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, ACE_JUMP,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                  MO(FN),   LT(SYM_R,KC_SPC),  MO(NAV),     MO(NUM),   LT(1,KC_ESC), OSL(INTJ)
                                       //`--------------------------'  `--------------------------'
@@ -68,19 +76,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TRNS, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS, KC_TRNS,  KC_TRNS,     KC_TRNS,   KC_TRNS, KC_TRNS
+                                 KC_TRNS, LT(CHAR_MODS, KC_SPC),KC_TRNS,        KC_TRNS,   KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
   ),
 
   [2] = LAYOUT_split_3x6_3( //SYMBOL RIGHT
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, XXXXXXX,XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,                      KC_EXLM, KC_QUES, KC_PPLS, KC_ASTR, KC_RPRN, KC_CIRC,
+      KC_TRNS,TO(MOUSE_LAYER),XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,              KC_EXLM, KC_QUES, KC_PPLS, KC_ASTR, KC_CIRC, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TRNS, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_AMPR,  KC_EQL, KC_MINS, KC_BSLS, KC_GRV,  KC_TRNS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, XXXXXXX, XXXXXXX, XXXXXXX, PTT, MUTE,                      KC_PIPE, XXXXXXX, KC_GT, KC_RCBR, KC_COLN, KC_TRNS,
+      KC_TRNS, XXXXXXX, XXXXXXX, XXXXXXX, PTT, MUTE,                            KC_PIPE, XXXXXXX, KC_LT, KC_GT, KC_COLN, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS
+                                          KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS, LT(CHAR_MODS, KC_ESC), KC_TRNS
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -98,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [4] = LAYOUT_split_3x6_3( //NAV
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                     C(KC_Y), KC_PGUP, KC_UP, KC_PGDN, KC_PAUS, KC_TRNS,
+      KC_TRNS, TO(MOUSE_LAYER), KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                     C(KC_Y), KC_PGUP, KC_UP, KC_PGDN, KC_PAUS, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TRNS, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_VOLU,                      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -134,11 +142,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [7] = LAYOUT_split_3x6_3( //IntelliJ
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, C(KC_Q), XXXXXXX, C(KC_F1), MEH(KC_T), MEH(KC_F11),               XXXXXXX, C(A(KC_F7)), XXXXXXX, A(KC_5), A(KC_1), XXXXXXX,
+      IJ_ACTION, C(KC_Q), XXXXXXX, C(KC_F1), MEH(KC_T), MEH(KC_F11),               XXXXXXX, C(A(KC_F7)), XXXXXXX, A(KC_5), A(KC_1), IJ_RUN,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, C(S(KC_S)), MEH(KC_2), TD_INTJ_DEBUG, C(A(KC_L)), MEH(KC_G),            C(KC_P), XXXXXXX, XXXXXXX, C(S(KC_E)), XXXXXXX, XXXXXXX,
+      IJ_CLASSES, C(S(KC_S)), MEH(KC_2), TD(TD_INTJ_DEBUG), C(A(KC_L)), MEH(KC_G),            C(KC_P), XXXXXXX, XXXXXXX, C(S(KC_E)), XXXXXXX, IJ_DEBUG,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, MEH(KC_1), C(S(KC_R)), MEH(KC_3), MEH(KC_F3), S(KC_F11),          C(S(KC_A)), TD_INTJ_FILES, S(KC_F2), KC_F2, XXXXXXX, XXXXXXX,
+      IJ_FILES, MEH(KC_1), C(S(KC_R)), MEH(KC_3), MEH(KC_F3), BOOKMARKS,          C(S(KC_A)), TD(TD_INTJ_FILES), S(KC_F2), KC_F2, XXXXXXX, IJ_STOP,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_TRNS, KC_TRNS,  KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
@@ -153,6 +161,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TRNS,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, C(KC_SCLN),  KC_TRNS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                  KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS,   KC_TRNS, KC_TRNS
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  [9] = LAYOUT_split_3x6_3( //mouse layer
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+     QK_BOOT, XXXXXXX, XXXXXXX, KC_MS_U, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_TRNS,GUI_T(KC_A), KC_MS_L, KC_MS_D, KC_MS_R, KC_G,                     XXXXXXX, KC_ACL2, KC_ACL1, KC_ACL0, XXXXXXX, KC_TRNS,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                 KC_TRNS,   TO(DEFAULT),  KC_TRNS,     KC_BTN2,   KC_BTN1, KC_BTN3
                                       //`--------------------------'  `--------------------------'
 
   ),
