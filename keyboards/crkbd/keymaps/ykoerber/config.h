@@ -50,3 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+//#define SPLIT_USB_DETECT
+//avoid the following: if entering " =" I'll get "  j" because I tap the space key twice, and the second hold is interpreted as holding space
+#define TAPPING_FORCE_HOLD
+#define PERMISSIVE_HOLD
