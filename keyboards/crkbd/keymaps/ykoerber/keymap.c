@@ -54,6 +54,23 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 };
 
 
+
+// combos
+enum combos {
+  RESET_LEFT,
+  RESET_RIGHT
+};
+
+const uint16_t PROGMEM reset_left_combo[] = {KC_Q, KC_T, KC_B, COMBO_END};
+const uint16_t PROGMEM reset_right_combo[] = {KC_Y, KC_P, KC_N, COMBO_END};
+
+combo_t key_combos[COMBO_COUNT] = {
+  [RESET_LEFT] = COMBO(reset_left_combo, QK_BOOT),
+  [RESET_RIGHT] = COMBO(reset_right_combo, QK_BOOT),
+};
+
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3( //
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.

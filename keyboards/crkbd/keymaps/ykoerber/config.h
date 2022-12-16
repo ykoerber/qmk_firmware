@@ -48,3 +48,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PERMISSIVE_HOLD
 //handedness via EEPROM
 #define EE_HANDS
+#define COMBO_COUNT 2
