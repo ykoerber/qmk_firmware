@@ -22,15 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //#define USE_MATRIX_I2C
 
-/* Select hand configuration */
-
-#define MASTER_LEFT
-// #define MASTER_RIGHT
-// #define EE_HANDS
-
-//#define TAPPING_FORCE_HOLD
-//#define TAPPING_TERM 100
-
 #ifdef RGBLIGHT_ENABLE
     #define RGBLIGHT_EFFECT_BREATHING
     #define RGBLIGHT_EFFECT_RAINBOW_MOOD
@@ -53,4 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define SPLIT_USB_DETECT
 //avoid the following: if entering " =" I'll get "  j" because I tap the space key twice, and the second hold is interpreted as holding space
 #define TAPPING_FORCE_HOLD
+//#define TAPPING_TERM 100
 #define PERMISSIVE_HOLD
+//handedness via EEPROM
+#define EE_HANDS
