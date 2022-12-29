@@ -53,7 +53,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_INTJ_FILES] = ACTION_TAP_DANCE_DOUBLE(S(C(KC_K)), C(S(KC_N))),
 };
 
-
+// custom key codes for e.g. macros
+enum custom_keycodes {
+  ARROW = SAFE_RANGE,
+};
 
 // combos
 enum combos {
@@ -103,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TRNS, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_AMPR,  KC_EQL, KC_MINS, KC_BSLS, KC_GRV,  KC_TRNS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, XXXXXXX, XXXXXXX, XXXXXXX, PTT, MUTE,                            KC_PIPE, XXXXXXX, KC_LT, KC_GT, KC_COLN, KC_TRNS,
+      KC_TRNS, XXXXXXX, XXXXXXX, XXXXXXX, PTT, MUTE,                            KC_PIPE, ARROW, KC_LT, KC_GT, KC_COLN, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS, LT(CHAR_MODS, KC_ESC), KC_TRNS
                                       //`--------------------------'  `--------------------------'
@@ -194,6 +197,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   ),
 };
+
+
+
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Get current mod and one-shot mod states.
+    const uint8_t mods = get_mods();
+    const uint8_t oneshot_mods = get_oneshot_mods();
+
+    switch (keycode) {
+    case ARROW:  // Arrow macro, types -> or =>.
+        //source: https://getreuer.info/posts/keyboards/macros/index.html#macros-that-respond-to-mods
+        if (record->event.pressed) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
+                del_mods(MOD_MASK_SHIFT);  // Temporarily delete shift.
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                SEND_STRING("=>");
+                set_mods(mods);            // Restore mods.
+            } else {
+                SEND_STRING("->");
+            }
+        }
+        return false;
+    }
+    return true;
+}
+
+
+
+
+
+
+
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
