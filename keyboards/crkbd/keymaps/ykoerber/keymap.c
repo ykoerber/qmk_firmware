@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define INTJ 7
 #define CHAR_MODS 8
 #define MOUSE_LAYER 9
+#define UTIL_LAYER 10
 
 #define PTT HYPR(KC_G)
 #define MUTE HYPR(KC_M)
@@ -81,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_BSPC,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_ENTER,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, ACE_JUMP,  KC_DEL,
+      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, OSL(UTIL_LAYER),  KC_DEL,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                  MO(FN),   LT(SYM_R,KC_SPC),  MO(NAV),     MO(NUM),   LT(1,KC_ESC), OSL(INTJ)
                                       //`--------------------------'  `--------------------------'
@@ -196,6 +197,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
 
   ),
+
+
+  [10] = LAYOUT_split_3x6_3( //util layer
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+     QK_BOOT, XXXXXXX, XXXXXXX, KC_MS_U, XXXXXXX, XXXXXXX,                      XXXXXXX, RALT(KC_Y), XXXXXXX, RALT(KC_P), XXXXXXX, KC_TRNS,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_TRNS,RALT(KC_Q), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                 KC_TRNS,   ACE_JUMP,  XXXXXXX,     XXXXXXX,   XXXXXXX, XXXXXXX
+                                      //`--------------------------'  `--------------------------'
+
+  )
 };
 
 
@@ -216,6 +231,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 del_oneshot_mods(MOD_MASK_SHIFT);
                 SEND_STRING("=>");
                 set_mods(mods);            // Restore mods.
+            } else if ((mods | oneshot_mods) & MOD_MASK_CTRL) {  // Is ctrl held?
+                del_mods(MOD_MASK_CTRL);  
+                del_oneshot_mods(MOD_MASK_CTRL);
+                SEND_STRING("|>");
+                set_mods(mods);           
             } else {
                 SEND_STRING("->");
             }
@@ -224,10 +244,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
-
-
-
 
 
 
