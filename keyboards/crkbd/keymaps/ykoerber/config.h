@@ -45,7 +45,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //avoid the following: if entering " =" I'll get "  j" because I tap the space key twice, and the second hold is interpreted as holding space
 #define TAPPING_FORCE_HOLD
 //#define TAPPING_TERM 100
-#define PERMISSIVE_HOLD
+//#define PERMISSIVE_HOLD
 //handedness via EEPROM
 #define EE_HANDS
 #define COMBO_COUNT 2
+//without: rolling on a layer with home row mods will use the mods and not output the individual key strokes
+#define IGNORE_MOD_TAP_INTERRUPT
