@@ -50,4 +50,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define EE_HANDS
 #define COMBO_COUNT 2
 //without: rolling on a layer with home row mods will use the mods and not output the individual key strokes
+//see https://docs.qmk.fm/#/tap_hold?id=ignore-mod-tap-interrupt
 #define IGNORE_MOD_TAP_INTERRUPT
