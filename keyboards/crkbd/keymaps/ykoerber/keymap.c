@@ -49,7 +49,7 @@ enum {
 };
 
 // Tap Dance definitions
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
     [TD_INTJ_DEBUG] = ACTION_TAP_DANCE_DOUBLE(S(A(KC_F9)), C(KC_F2)),
     [TD_INTJ_FILES] = ACTION_TAP_DANCE_DOUBLE(S(C(KC_K)), C(S(KC_N))),
 };
