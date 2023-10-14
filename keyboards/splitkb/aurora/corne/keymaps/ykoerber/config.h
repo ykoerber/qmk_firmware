@@ -20,7 +20,7 @@
 #pragma once
 
 #ifdef RGBLIGHT_ENABLE
-    #define RGBLIGHT_EFFECT_BREATHING
+    // #define RGBLIGHT_EFFECT_BREATHING
 #endif
 
 
@@ -39,3 +39,5 @@
 
 
 
+//rgb
+#define RGBLIGHT_DEFAULT_HUE 169
