@@ -19,6 +19,8 @@
 
 #pragma once
 
+#define SERIAL_PIO_USE_PIO1
+
 #ifdef RGBLIGHT_ENABLE
     // #define RGBLIGHT_EFFECT_BREATHING
 #endif
@@ -32,8 +34,9 @@
 // #define USB_VBUS_PIN D20
 // #define SPLIT_HAND_PIN GP24
 
-#define SPLIT_HAND_PIN F4
+// #define SPLIT_HAND_PIN F4
 // #define SPLIT_WATCHDOG_ENABLE
+// #define USB_VBUS_PIN GP25
 
 // #define EE_HANDS
 // #define USB_VBUS_PIN GP19
