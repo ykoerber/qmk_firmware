@@ -20,39 +20,15 @@
 #pragma once
 
 #define SERIAL_PIO_USE_PIO1
+#define SPLIT_WATCHDOG_ENABLE
 
 #ifdef RGBLIGHT_ENABLE
     // #define RGBLIGHT_EFFECT_BREATHING
 #endif
 
-
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
-
-// #define SPLIT_HAND_PIN GP28
-// #define USB_VBUS_PIN F4
-// #undef SPLIT_USB_DETECT
-// #define USB_VBUS_PIN D20
-// #define SPLIT_HAND_PIN GP24
-
-// #define SPLIT_HAND_PIN F4
-// #define SPLIT_WATCHDOG_ENABLE
-// #define USB_VBUS_PIN GP25
-
-// #define EE_HANDS
-// #define USB_VBUS_PIN GP19
-//#define SPLIT_USB_DETECT
 //avoid the following: if entering " =" I'll get "  j" because I tap the space key twice, and the second hold is interpreted as holding space
 #define TAPPING_FORCE_HOLD
-//#define TAPPING_TERM 100
-//#define PERMISSIVE_HOLD
-//handedness via EEPROM
-//#define EE_HANDS
 #define COMBO_COUNT 2
-//without: rolling on a layer with home row mods will use the mods and not output the individual key strokes
-//see https://docs.qmk.fm/#/tap_hold?id=ignore-mod-tap-interrupt
-//#define IGNORE_MOD_TAP_INTERRUPT
-
-
-
 //rgb
 #define RGBLIGHT_DEFAULT_HUE 169
