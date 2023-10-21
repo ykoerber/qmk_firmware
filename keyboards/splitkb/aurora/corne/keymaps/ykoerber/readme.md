@@ -1,4 +1,4 @@
 # make
 ```bash
-make crkbd/rev1:ykoerber -j 4
+make splitkb/aurora/corne/rev1:ykoerber -e CONVERT_TO=promicro_rp2040
 ```

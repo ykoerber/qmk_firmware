@@ -25,6 +25,18 @@
 
 
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+
+// #define SPLIT_HAND_PIN GP28
+// #define USB_VBUS_PIN F4
+// #undef SPLIT_USB_DETECT
+// #define USB_VBUS_PIN D20
+// #define SPLIT_HAND_PIN GP24
+
+#define SPLIT_HAND_PIN F4
+// #define SPLIT_WATCHDOG_ENABLE
+
+// #define EE_HANDS
+// #define USB_VBUS_PIN GP19
 //#define SPLIT_USB_DETECT
 //avoid the following: if entering " =" I'll get "  j" because I tap the space key twice, and the second hold is interpreted as holding space
 #define TAPPING_FORCE_HOLD
