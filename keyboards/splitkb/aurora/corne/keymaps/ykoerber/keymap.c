@@ -10,8 +10,8 @@
 #define GAMING 7
 
 
-#define PTT HYPR(KC_G)
-#define MUTE HYPR(KC_M)
+#define PTT HYPR(KC_F13)
+#define MUTE HYPR(KC_F14)
 #define BOOKMARKS S(KC_F11)
 #define IJ_ACTION C(S(KC_A))
 #define IJ_CLASSES C(S(KC_K))
