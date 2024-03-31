@@ -38,6 +38,7 @@ enum custom_keycodes {
   ARROW = SAFE_RANGE,
   COMMA_AND_QUEST_MARK,
   DOT_AND_EXCL_MARK,
+  MY_ESC,
 };
 
 // combos
@@ -63,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_BSPC, GUI_T(KC_A),  ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,           KC_H,    SFT_T(KC_J),  CTL_T(KC_K),  ALT_T(KC_L), GUI_T(KC_SCLN), KC_ENTER,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_ESC,  KC_DEL,
+      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, MY_ESC,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
                                 PTT,     KC_SPC,  MO(NAV),                      OSL(NUM),OSL(SYM_L), OSM(MOD_LCTL | MOD_LALT)
                               //`--------------------------'                   `--------------------------'
@@ -204,6 +205,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 set_mods(mods);
             } else {
                 SEND_STRING(".");
+            }
+        }
+        return false;
+    case MY_ESC:
+        if(record -> event.pressed) {
+            if(is_caps_word_on()) {
+                //turn caps_word off on escape and consume escape
+                caps_word_off();
+            } else {
+                tap_code16(KC_ESC);
             }
         }
         return false;
