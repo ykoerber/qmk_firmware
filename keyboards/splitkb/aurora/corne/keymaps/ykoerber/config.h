@@ -32,3 +32,7 @@
 #define COMBO_COUNT 2
 //rgb
 #define RGBLIGHT_DEFAULT_HUE 169
+
+
+#define TAPPING_TERM 160
+#define PERMISSIVE_HOLD
