@@ -8,6 +8,7 @@
 #define MOUSE_LAYER 5
 #define UTIL_LAYER 6
 #define GAMING 7
+#define TB_LAYER 8//track ball layer, mouse clicks with keyboard
 
 
 #define PTT HYPR(KC_F13)
@@ -20,6 +21,7 @@
 #define IJ_RUN S(A(KC_F10))
 #define IJ_STOP C(KC_F2)
 #define ACE_JUMP C(KC_SCLN)
+
 
 // Tap Dance declarations
 enum {
@@ -66,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, MY_ESC,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                PTT,     KC_SPC,  MO(NAV),                      OSL(NUM),OSL(SYM_L), OSM(MOD_LCTL | MOD_LALT)
+                                PTT,     LT(TB_LAYER, KC_SPC),  MO(NAV),                      OSL(NUM),OSL(SYM_L), OSM(MOD_LCTL | MOD_LALT)
                               //`--------------------------'                   `--------------------------'
 
   ),
@@ -156,7 +158,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                          KC_Y,   KC_SPC,  KC_U,                        OSL(NUM),   TO(DEFAULT), OSM(MOD_LCTL | MOD_LALT)
                               //`--------------------------'                   `--------------------------'
 
-  )
+  ),
+
+ [TB_LAYER] = LAYOUT_split_3x6_3( //mouse layer
+ //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+    XXXXXXX, KC_WBAK, KC_WFWD, KC_PGUP, KC_PGDN, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
+ //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     KC_TRNS, XXXXXXX, XXXXXXX, KC_BTN3, KC_BTN1, KC_BTN2,                     XXXXXXX, KC_ACL2, KC_ACL1, KC_ACL0, XXXXXXX, KC_TRNS,
+ //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     KC_TRNS,XXXXXXX,  C(KC_X), C(KC_C), C(KC_V), XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
+ //|--------+--------+--------+--------+--------+--------+----- ---|  |--------+--------+--------+--------+--------+--------+--------|
+                                KC_TRNS,   XXXXXXX,  KC_TRNS,     KC_BTN2,   KC_BTN1, KC_BTN3
+                                     //`--------------------------'  `--------------------------'
+ )
 };
 
 
