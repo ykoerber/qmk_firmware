@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "features/achordion.h"
 
 #define DEFAULT 0
 #define SYM_L 1
@@ -161,6 +162,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_achordion(keycode, record)) { 
+        return false; 
+    }
+
     // Get current mod and one-shot mod states.
     const uint8_t mods = get_mods();
     const uint8_t oneshot_mods = get_oneshot_mods();
@@ -224,6 +229,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
+void matrix_scan_user(void) {
+  achordion_task();
+}
 
 #ifdef RGBLIGHT_ENABLE
 void keyboard_post_init_user(void) {

@@ -9,3 +9,4 @@ COMBO_ENABLE = yes
 TAP_DANCE_ENABLE = yes
 #otherwise QK_BOOT does not work
 BOOTLOADER = atmel-dfu
+SRC += features/achordion.c
