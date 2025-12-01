@@ -11,18 +11,18 @@ enum custom_keycodes {
 };
 
 #define DEFAULT 0
-#define SYM 1
-#define NUM 2
-#define NAV 3
-#define MOUSE_LAYER 4
-#define UTIL_LAYER 5
-#define UMLAUT 6
-#define MAC_DEFAULT 7
-#define MAC_SYM 8
-#define MAC_NUM 9
-#define MAC_NAV 10
-#define MAC_MOUSE_LAYER 11
-#define MAC_UTIL_LAYER 12
+#define MAC_DEFAULT 1
+#define SYM 2
+#define MAC_SYM 3
+#define NUM 4
+#define MAC_NUM 5
+#define NAV 6
+#define MAC_NAV 7
+#define MOUSE_LAYER 8
+#define MAC_MOUSE_LAYER 9
+#define UTIL_LAYER 10
+#define MAC_UTIL_LAYER 11
+
 
 
 #define PTT MEH(KC_F16)
@@ -60,165 +60,101 @@ combo_t key_combos[COMBO_COUNT] = {
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  //====================================================================================================================================================================================
   [DEFAULT] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
    OSM(MOD_LSFT), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  OSM(MOD_RSFT),
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_BSPC, GUI_T(KC_A),  ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,           KC_H,    SFT_T(KC_J),  CTL_T(KC_K),  ALT_T(KC_L), GUI_T(KC_SCLN), KC_ENTER,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_MY_ESC,  KC_DEL,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
                                 PTT, MY_SPACE,  MO(NAV),                      OSL(NUM), LT(SYM, KC_ESC), MOUSECLICK
-                              //`--------------------------'                   `--------------------------'
-
-  ),
-
-  [SYM] = LAYOUT_split_3x6_3( //SYMBOL
-  //,-----------------------------------------------------.                                 ,-----------------------------------------------------.
-      KC_TRNS,  KC_PIPE, KC_AMPR, KC_LPRN, KC_RPRN, KC_DLR,                                     XXXXXXX, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                                     |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, GUI_T(KC_QUOT), ALT_T(KC_SLSH), CTL_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         XXXXXXX, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                                     |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     XXXXXXX, KC_AT, KC_LT, KC_GT, KC_COLN, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|                |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'                `--------------------------'
-  ),
-
-  [NUM] = LAYOUT_split_3x6_3( // number + FN
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F10, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, GUI_T(KC_0), ALT_T(KC_4),   CTL_T(KC_5), SFT_T(KC_6),  KC_DOT,     XXXXXXX, SFT_T(KC_F4), CTL_T(KC_F5), ALT_T(KC_F6), GUI_T(KC_F11), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F12, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS, KC_TRNS, KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-    [NAV] = LAYOUT_split_3x6_3( //NAV
-  //,-------------------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, TO(MOUSE_LAYER),KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                     C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_LGUI,        KC_LALT, KC_LCTL, KC_LSFT, KC_VOLU,                      UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, C(KC_Z),        C(KC_X), C(KC_C), C(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, SHOW_APPS, MUTE,    KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------+--------|
-                                        KC_TRNS, KC_TRNS,  KC_TRNS,                     KC_TRNS, KC_TRNS, KC_TRNS
-                                      //`--------------------------'                   `--------------------------'
-  ),
-
-
-  [MOUSE_LAYER] = LAYOUT_split_3x6_3( //mouse layer
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     QK_BOOT, XXXXXXX, XXXXXXX, MS_UP, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,GUI_T(KC_A), MS_LEFT, MS_DOWN, MS_RGHT, KC_G,                     XXXXXXX, MS_ACL2, MS_ACL1, MS_ACL0, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   TO(DEFAULT),  KC_TRNS,     MS_BTN2,   MS_BTN1, MS_BTN3
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-    [UTIL_LAYER] = LAYOUT_split_3x6_3( //util layer
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     KC_TRNS, KC_WBAK, KC_WFWD, XXXXXXX, CW_TOGG, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX , PDF(MAC_DEFAULT),
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, ACE_JUMP, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
-
-  ),
-    [UMLAUT] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     KC_TRNS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, US_UDIA, XXXXXXX, US_ODIA, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,US_ADIA, US_SS, XXXXXXX, XXXXXXX, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-   OSM(MOD_LSFT), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  OSM(MOD_RSFT),
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_BSPC, CTL_T(KC_A),  ALT_T(KC_S), GUI_T(KC_D), SFT_T(KC_F), KC_G,           KC_H,    SFT_T(KC_J),  GUI_T(KC_K),  ALT_T(KC_L), CTL_T(KC_SCLN), KC_ENTER,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_MY_ESC,  KC_DEL,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                PTT, MAC_MY_SPACE,  MO(MAC_NAV),                      OSL(MAC_NUM), LT(MAC_SYM, KC_ESC), MOUSECLICK
-                              //`--------------------------'                   `--------------------------'
-
-  ),
-
-  [MAC_SYM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                                 ,-----------------------------------------------------.
-      KC_TRNS,  KC_PIPE, KC_AMPR, KC_LPRN, KC_RPRN, KC_DLR,                                     XXXXXXX, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                                     |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, CTL_T(KC_QUOT), ALT_T(KC_SLSH), GUI_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         XXXXXXX, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                                     |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     XXXXXXX, KC_AT, KC_LT, KC_GT, KC_COLN, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|                |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'                `--------------------------'
-  ),
-
-  [MAC_NUM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F10, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, CTL_T(KC_0), ALT_T(KC_4),   GUI_T(KC_5), SFT_T(KC_6),  KC_DOT,     XXXXXXX, SFT_T(KC_F4), GUI_T(KC_F5), ALT_T(KC_F6), CTL_T(KC_F11), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F12, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS, KC_TRNS, KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-    [MAC_NAV] = LAYOUT_split_3x6_3(
-  //,-------------------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, TO(MAC_MOUSE_LAYER),KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                     G(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_LCTL,     KC_LALT, KC_LGUI, KC_LSFT, KC_VOLU,                      UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, G(KC_Z),        G(KC_X), G(KC_C), G(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, SHOW_APPS, MUTE,    KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------+--------|
-                                        KC_TRNS, KC_TRNS,  KC_TRNS,                     KC_TRNS, KC_TRNS, KC_TRNS
-                                      //`--------------------------'                   `--------------------------'
+   _______, _______, _______, _______, _______, _______,                                  _______, _______, _______, _______, _______, _______,
+      _______, CTL_T(KC_A),  ALT_T(KC_S), GUI_T(KC_D), SFT_T(KC_F), _______,                     _______,    SFT_T(KC_J),  GUI_T(KC_K),  ALT_T(KC_L), CTL_T(KC_SCLN), _______,
+    _______, _______, _______, _______, _______, _______,                                  _______, _______, _______, _______, _______, _______,
+                                _______, MAC_MY_SPACE,  MO(MAC_NAV),                                OSL(MAC_NUM), LT(MAC_SYM, KC_ESC), _______
   ),
 
 
-[MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3( //mouse layer
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     QK_BOOT, MS_WHLL, MS_WHLU, MS_UP, MS_WHLD, MS_WHLR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,GUI_T(KC_A), MS_LEFT, MS_DOWN, MS_RGHT, KC_G,                     XXXXXXX, MS_ACL0, MS_ACL1, MS_ACL2, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_A,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TO(MAC_DEFAULT), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   TO(MAC_DEFAULT),  MO(MAC_NAV),     MS_BTN2,   MS_BTN1, MS_BTN3
-                                      //`--------------------------'  `--------------------------'
+
+   //====================================================================================================================================================================================
+  [SYM] = LAYOUT_split_3x6_3(
+      KC_TRNS,  KC_PIPE, KC_AMPR, KC_LPRN, KC_RPRN, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, KC_TRNS,
+      KC_TRNS, GUI_T(KC_QUOT), ALT_T(KC_SLSH), CTL_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV), KC_TRNS,
+      KC_TRNS, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     _______, KC_AT, KC_LT, KC_GT, KC_COLN, KC_TRNS,
+                                   _______, _______, _______,                        _______,   _______, _______
   ),
+    [MAC_SYM] = LAYOUT_split_3x6_3(
+        _______, _______, _______, _______, _______, _______,                        _______, _______, _______, _______, _______, _______,
+        _______, CTL_T(KC_QUOT), _______, GUI_T(KC_LBRC), _______, _______,          _______, _______, GUI_T(KC_MINS), _______, CTL_T(KC_GRV), _______,
+        _______, _______, _______, _______, _______, _______,                        _______, _______, _______, _______, _______, _______,
+                                   _______, _______, _______,                        _______,   _______, _______
+    ),
+//====================================================================================================================================================================================
 
-    [MAC_UTIL_LAYER] = LAYOUT_split_3x6_3( //KC_F19 ACE_JUMP   SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV), BOOKMARKS
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------|
-     KC_TRNS, G(KC_LBRC), G(KC_RBRC), G(S(KC_LBRC)), G(S(KC_RBRC)), TABS,                      XXXXXXX, G(KC_TILD), G(KC_GRV), XXXXXXX, XXXXXXX,  PDF(MAC_DEFAULT),
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,KC_LCTL, KC_LALT, GUI_T(KC_TAB), SFT_T(KC_ENTER), ACE_JUMP,                 MAC_CLIPBOARD_HISTORY, SFT_T(KC_BSPC), GUI_T(KC_DEL), KC_LALT, KC_LCTL, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17,                      KC_F18, KC_F19, KC_F20, KC_F21, KC_F21, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
 
+
+
+// number + FN =======================================================================================================================================================================
+  [NUM] = LAYOUT_split_3x6_3(
+      _______, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         _______, KC_F7, KC_F8, KC_F9, KC_F10, _______,
+      _______, GUI_T(KC_0), ALT_T(KC_4),   CTL_T(KC_5), SFT_T(KC_6),  KC_DOT,       _______, SFT_T(KC_F4), CTL_T(KC_F5), ALT_T(KC_F6), GUI_T(KC_F11), _______,
+      _______, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
+                                          _______, _______, _______,                _______, _______, _______
+  ),
+   [MAC_NUM] = LAYOUT_split_3x6_3(
+       _______, _______, _______, _______, _______, _______,                                    _______, _______, _______, _______, _______, _______,
+       _______, CTL_T(KC_0), _______,   GUI_T(KC_5), _______,  _______,                         _______, _______, GUI_T(KC_F5), _______, CTL_T(KC_F11), _______,
+      _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
+                                          _______, _______, _______,                            _______, _______, _______
+   ),
+
+//====================================================================================================================================================================================
+
+
+    [NAV] = LAYOUT_split_3x6_3( //NAV
+        _______, TO(MOUSE_LAYER),KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                     C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
+        _______, KC_LGUI,        KC_LALT, KC_LCTL, KC_LSFT, KC_VOLU,                      UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, _______,
+        _______, C(KC_Z),        C(KC_X), C(KC_C), C(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, SHOW_APPS, MUTE,    _______,
+                                        _______, _______,  _______,                     _______, _______, _______
+  ),
+      [MAC_NAV] = LAYOUT_split_3x6_3(
+        _______, TO(MAC_MOUSE_LAYER), _______, _______, _______, _______,                     G(KC_Y), _______, _______, _______, _______, _______,
+        _______, KC_LCTL,            _______, KC_LGUI, _______, _______,                      _______, _______, _______, _______, MAC_CONTEXT_MENU, _______,
+        _______, G(KC_Z),        G(KC_X), G(KC_C), G(KC_V), _______,                      _______, _______, _______, _______, _______,    _______,
+                                          _______, _______,  _______,                     _______, _______, _______
+    ),
+
+//====================================================================================================================================================================================
+
+
+
+  [MOUSE_LAYER] = LAYOUT_split_3x6_3(
+     QK_BOOT, MS_WHLL, MS_WHLU, MS_UP, MS_WHLD, MS_WHLR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______,XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX,                     XXXXXXX, MS_ACL2, MS_ACL1, MS_ACL0, XXXXXXX, _______,
+      _______,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+                          _______,   TO(DEFAULT),   MO(MAC_NAV),            MS_BTN2,   MS_BTN1, MS_BTN3
+  ),
+  [MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3(
+        _______, _______, _______, MS_UP, _______, _______,                      _______, _______, _______, _______, _______, _______,
+        _______,_______, _______, _______, _______, _______,                     _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, TO(MAC_DEFAULT), _______,
+                                   _______,   TO(MAC_DEFAULT), _______,     _______, _______, _______
+    ),
+
+//====================================================================================================================================================================
+
+    [UTIL_LAYER] = LAYOUT_split_3x6_3(
+     _______, KC_WBAK, KC_WFWD, XXXXXXX, CW_TOGG, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX , PDF(MAC_DEFAULT),
+      _______,XXXXXXX, XXXXXXX, XXXXXXX, ACE_JUMP, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+                                 _______,   _______,  _______,     _______,   _______, _______
+  ),
+    [MAC_UTIL_LAYER] = LAYOUT_split_3x6_3(
+     _______, G(KC_LBRC), G(KC_RBRC), G(S(KC_LBRC)), G(S(KC_RBRC)), TABS,                      XXXXXXX, G(KC_TILD), G(KC_GRV), XXXXXXX, XXXXXXX,  PDF(DEFAULT),
+      _______,KC_LCTL, KC_LALT, GUI_T(KC_TAB), SFT_T(KC_ENTER), ACE_JUMP,                 MAC_CLIPBOARD_HISTORY, SFT_T(KC_BSPC), GUI_T(KC_DEL), KC_LALT, KC_LCTL, _______,
+      _______, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17,                      KC_F18, KC_F19, KC_F20, KC_F21, KC_F21, _______,
+                                 _______,   _______,  _______,     _______,   _______, _______
   )
 };
 
