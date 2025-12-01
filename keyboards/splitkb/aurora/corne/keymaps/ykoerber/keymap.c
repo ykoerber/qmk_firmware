@@ -124,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [UTIL_LAYER] = LAYOUT_split_3x6_3( //util layer
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     KC_TRNS, KC_WBAK, KC_WFWD, XXXXXXX, CW_TOGG, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TO(MAC_DEFAULT),
+     KC_TRNS, KC_WBAK, KC_WFWD, XXXXXXX, CW_TOGG, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX , PDF(MAC_DEFAULT),
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, ACE_JUMP, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -154,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_MY_ESC,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                PTT, MAC_MY_SPACE,  MO(MAC_NAV),                      OSL(MAC_NUM), LT(SYM, KC_ESC), MOUSECLICK
+                                PTT, MAC_MY_SPACE,  MO(MAC_NAV),                      OSL(MAC_NUM), LT(MAC_SYM, KC_ESC), MOUSECLICK
                               //`--------------------------'                   `--------------------------'
 
   ),
@@ -210,7 +210,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [MAC_UTIL_LAYER] = LAYOUT_split_3x6_3( //KC_F19 ACE_JUMP   SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV), BOOKMARKS
   //,-----------------------------------------------------.                    ,-----------------------------------------------------|
-     KC_TRNS, G(KC_LBRC), G(KC_RBRC), G(S(KC_LBRC)), G(S(KC_RBRC)), TABS,                      XXXXXXX, G(KC_TILD), G(KC_GRV), XXXXXXX, XXXXXXX, TO(DEFAULT),
+     KC_TRNS, G(KC_LBRC), G(KC_RBRC), G(S(KC_LBRC)), G(S(KC_RBRC)), TABS,                      XXXXXXX, G(KC_TILD), G(KC_GRV), XXXXXXX, XXXXXXX,  PDF(MAC_DEFAULT),
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_TRNS,KC_LCTL, KC_LALT, GUI_T(KC_TAB), SFT_T(KC_ENTER), ACE_JUMP,                 MAC_CLIPBOARD_HISTORY, SFT_T(KC_BSPC), GUI_T(KC_DEL), KC_LALT, KC_LCTL, KC_TRNS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
