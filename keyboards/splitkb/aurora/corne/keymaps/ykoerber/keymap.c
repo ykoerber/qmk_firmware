@@ -7,7 +7,7 @@ enum custom_keycodes {
   ARROW = SAFE_RANGE,
   COMMA_AND_QUEST_MARK,
   DOT_AND_EXCL_MARK,
-  KC_MY_ESC,
+  KC_MY_ESC
 };
 
 #define DEFAULT 0
@@ -35,11 +35,10 @@ enum custom_keycodes {
 #define ACE_SCROLL S(G(A(KC_F13)))
 #define MY_SPACE LT(UTIL_LAYER, KC_SPC)
 #define MAC_MY_SPACE LT(MAC_UTIL_LAYER, KC_SPC)
-#define MY_ESC LT(SYM, KC_MY_ESC)
-#define MAC_MY_ESC LT(MAC_SYM, KC_MY_ESC) //KC_ESC geht, KC_MY_ESC nicht
 #define SHOW_APPS C(A(KC_TAB))
 #define MOUSECLICK KC_F19
-
+#define MAC_ESC LT(MAC_SYM, KC_ESC)
+#define PC_ESC LT(SYM, KC_ESC)
 
 
 // combos
@@ -58,36 +57,35 @@ combo_t key_combos[COMBO_COUNT] = {
 };
 
 
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //====================================================================================================================================================================================
   [DEFAULT] = LAYOUT_split_3x6_3(
-   OSM(MOD_LSFT), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  OSM(MOD_RSFT),
+    OSM(MOD_LSFT), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  OSM(MOD_RSFT),
       KC_BSPC, GUI_T(KC_A),  ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,           KC_H,    SFT_T(KC_J),  CTL_T(KC_K),  ALT_T(KC_L), GUI_T(KC_SCLN), KC_ENTER,
-      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_MY_ESC,  KC_DEL,
-                                PTT, MY_SPACE,  MO(NAV),                      OSL(NUM), LT(SYM, KC_ESC), MOUSECLICK
+      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_ESC,  KC_DEL,
+                                PTT, MY_SPACE,  MO(NAV),                      OSL(NUM), PC_ESC, MOUSECLICK
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
    _______, _______, _______, _______, _______, _______,                                  _______, _______, _______, _______, _______, _______,
       _______, CTL_T(KC_A),  ALT_T(KC_S), GUI_T(KC_D), SFT_T(KC_F), _______,                     _______,    SFT_T(KC_J),  GUI_T(KC_K),  ALT_T(KC_L), CTL_T(KC_SCLN), _______,
     _______, _______, _______, _______, _______, _______,                                  _______, _______, _______, _______, _______, _______,
-                                _______, MAC_MY_SPACE,  MO(MAC_NAV),                                OSL(MAC_NUM), LT(MAC_SYM, KC_ESC), _______
+                                _______, MAC_MY_SPACE,  MO(MAC_NAV),                                OSL(MAC_NUM), MAC_ESC, _______
   ),
 
 
 
    //====================================================================================================================================================================================
   [SYM] = LAYOUT_split_3x6_3(
-      KC_TRNS,  KC_PIPE, KC_AMPR, KC_LPRN, KC_RPRN, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, KC_TRNS,
-      KC_TRNS, GUI_T(KC_QUOT), ALT_T(KC_SLSH), CTL_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV), KC_TRNS,
-      KC_TRNS, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     _______, KC_AT, KC_LT, KC_GT, KC_COLN, KC_TRNS,
+      _______, KC_PIPE, KC_AMPR, KC_LPRN, KC_RPRN, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, _______,
+      _______, GUI_T(KC_QUOT), ALT_T(KC_SLSH), CTL_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV), _______,
+      _______, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     _______, KC_AT, KC_LT, KC_GT, KC_COLN, _______,
                                    _______, _______, _______,                        _______,   _______, _______
   ),
     [MAC_SYM] = LAYOUT_split_3x6_3(
-        _______, _______, _______, _______, _______, _______,                        _______, _______, _______, _______, _______, _______,
-        _______, CTL_T(KC_QUOT), _______, GUI_T(KC_LBRC), _______, _______,          _______, _______, GUI_T(KC_MINS), _______, CTL_T(KC_GRV), _______,
-        _______, _______, _______, _______, _______, _______,                        _______, _______, _______, _______, _______, _______,
+      _______, KC_PIPE, KC_AMPR, KC_LPRN, KC_RPRN, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, _______,
+      _______, CTL_T(KC_QUOT), ALT_T(KC_SLSH), GUI_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO  ,        _______, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV), _______,
+      _______, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     _______, KC_AT, KC_LT, KC_GT, KC_COLN, _______,
                                    _______, _______, _______,                        _______,   _______, _______
     ),
 //====================================================================================================================================================================================
@@ -103,9 +101,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           _______, _______, _______,                _______, _______, _______
   ),
    [MAC_NUM] = LAYOUT_split_3x6_3(
-       _______, _______, _______, _______, _______, _______,                                    _______, _______, _______, _______, _______, _______,
-       _______, CTL_T(KC_0), _______,   GUI_T(KC_5), _______,  _______,                         _______, _______, GUI_T(KC_F5), _______, CTL_T(KC_F11), _______,
-      _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
+      _______, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         _______, KC_F7, KC_F8, KC_F9, KC_F10, _______,
+       _______, CTL_T(KC_0), ALT_T(KC_4),   GUI_T(KC_5), SFT_T(KC_6),  KC_DOT,      _______, SFT_T(KC_F4), GUI_T(KC_F5), ALT_T(KC_F6), CTL_T(KC_F11), _______,
+      _______, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
                                           _______, _______, _______,                            _______, _______, _______
    ),
 
@@ -119,9 +117,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                         _______, _______,  _______,                     _______, _______, _______
   ),
       [MAC_NAV] = LAYOUT_split_3x6_3(
-        _______, TO(MAC_MOUSE_LAYER), _______, _______, _______, _______,                     G(KC_Y), _______, _______, _______, _______, _______,
-        _______, KC_LCTL,            _______, KC_LGUI, _______, _______,                      _______, _______, _______, _______, MAC_CONTEXT_MENU, _______,
-        _______, G(KC_Z),        G(KC_X), G(KC_C), G(KC_V), _______,                      _______, _______, _______, _______, _______,    _______,
+        _______, TO(MAC_MOUSE_LAYER),KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                       G(KC_Y),  KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
+        _______, KC_LCTL,            KC_LALT, KC_LGUI, KC_LSFT,  KC_VOLU,                       UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, _______,
+        _______, G(KC_Z),        G(KC_X), G(KC_C), G(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, SHOW_APPS, MUTE,    _______,
                                           _______, _______,  _______,                     _______, _______, _______
     ),
 
@@ -136,10 +134,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______,   TO(DEFAULT),   MO(MAC_NAV),            MS_BTN2,   MS_BTN1, MS_BTN3
   ),
   [MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3(
-        _______, _______, _______, MS_UP, _______, _______,                      _______, _______, _______, _______, _______, _______,
-        _______,_______, _______, _______, _______, _______,                     _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, TO(MAC_DEFAULT), _______,
-                                   _______,   TO(MAC_DEFAULT), _______,     _______, _______, _______
+     QK_BOOT, MS_WHLL, MS_WHLU, MS_UP, MS_WHLD, MS_WHLR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______,XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX,                     XXXXXXX, MS_ACL2, MS_ACL1, MS_ACL0, XXXXXXX, _______,
+      _______,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+                                   _______,   TO(MAC_DEFAULT), _______,     MS_BTN2,   MS_BTN1, MS_BTN3
     ),
 
 //====================================================================================================================================================================
@@ -207,16 +205,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         }
         return false;
-    case KC_MY_ESC:
-        if(record -> event.pressed) {
-            if(is_caps_word_on()) {
-                //turn caps_word off on escape and consume escape
-                caps_word_off();
-            } else {
-                tap_code16(KC_ESC);
-            }
+    case PC_ESC:
+        if (record->tap.count == 0) {
+            //key is being held => use normal LT behavior
+            return true;
+        } else if(record->event.pressed && is_caps_word_on()) {
+            caps_word_off();
+            return false;
+        } else if(record->event.pressed) {
+            tap_code(KC_ESC);
+            return false;
+        } else {
+            return false;
         }
-        return false;
+    case MAC_ESC:
+        if (record->tap.count == 0) {
+            //key is being held => use normal LT behavior
+            return true;
+        } else if(record->event.pressed && is_caps_word_on()) {
+            caps_word_off();
+            return false;
+        } else if(record->event.pressed) {
+            tap_code(KC_ESC);
+            return false;
+        } else {
+            return false;
+        }
     }
 
     return true;
