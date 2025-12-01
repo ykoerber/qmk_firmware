@@ -1,3 +1,27 @@
+
+# Build Corne MX Keyboard (wooden case)
+```bash
+export SKIP_FLASHING_SUPPORT=1
+export MAKEFLAGS="CONVERT_TO=elite_pi"  
+util/docker_build.sh splitkb/aurora/corne/rev1:ykoerber
+```
+
+# Build Corne Choc Keyboard
+```bash
+export SKIP_FLASHING_SUPPORT=1
+util/docker_build.sh crkbd/rev1:ykoerber
+```
+flash with qmk toolbox
+
+
+# Build Cygnus
+```bash
+export SKIP_FLASHING_SUPPORT=1
+export MAKEFLAGS="CONVERT_TO=elite_pi"  
+util/docker_build.sh crkbd/rev1:ykoerber
+```
+
+
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
