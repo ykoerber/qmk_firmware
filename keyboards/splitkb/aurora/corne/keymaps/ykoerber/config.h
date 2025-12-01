@@ -40,5 +40,7 @@
 //avoid the following: if entering " =" I'll get "  j" because I tap the space key twice, and the second hold is interpreted as holding space
 #define QUICK_TAP_TERM 0
 
+#define CHORDAL_HOLD
+
 #define MK_3_SPEED
 #define MOUSEKEY_INTERVAL 11

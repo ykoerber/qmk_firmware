@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "features/achordion.h"
 #include "keymap_us_international.h"
 
 
@@ -225,10 +224,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_achordion(keycode, record)) {
-        return false;
-    }
-
     // Get current mod and one-shot mod states.
     const uint8_t mods = get_mods();
     const uint8_t oneshot_mods = get_oneshot_mods();
@@ -292,27 +287,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-void matrix_scan_user(void) {
-  achordion_task();
-}
-
-bool achordion_chord(uint16_t tap_hold_keycode,
-                     keyrecord_t* tap_hold_record,
-                     uint16_t other_keycode,
-                     keyrecord_t* other_record) {
-  // allow same-hand holds for the space key. This is necessary because the space key is a LT key
-  switch (tap_hold_keycode) {
-    case MY_SPACE:
-    case MAC_MY_SPACE:
-//    case MY_ESC:
-//    case MAC_MY_ESC:
-      return true;
-  }
-
-  // opposite hands rule as default
-  return achordion_opposite_hands(tap_hold_record, other_record);
-}
-
 
 #ifdef RGBLIGHT_ENABLE
 void keyboard_post_init_user(void) {
@@ -321,3 +295,12 @@ void keyboard_post_init_user(void) {
 //   rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // sets mode to Fast breathing without saving
 }
 #endif
+
+
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
+    LAYOUT_split_3x6_3(
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
+                       '*', '*', '*',  '*', '*', '*'
+    );
