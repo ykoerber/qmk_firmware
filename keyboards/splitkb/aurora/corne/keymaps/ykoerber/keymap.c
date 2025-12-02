@@ -36,6 +36,7 @@ enum custom_keycodes {
 #define MY_SPACE LT(UTIL_LAYER, KC_SPC)
 #define MAC_MY_SPACE LT(MAC_UTIL_LAYER, KC_SPC)
 #define SHOW_APPS C(A(KC_TAB))
+#define MAC_SHOW_APPS G(A(KC_TAB))
 #define MOUSECLICK KC_F19
 #define MAC_ESC LT(MAC_SYM, KC_ESC)
 #define PC_ESC LT(SYM, KC_ESC)
@@ -119,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       [MAC_NAV] = LAYOUT_split_3x6_3(
         _______, TO(MAC_MOUSE_LAYER),KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                       G(KC_Y),  KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
         _______, KC_LCTL,            KC_LALT, KC_LGUI, KC_LSFT,  KC_VOLU,                       UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, _______,
-        _______, G(KC_Z),        G(KC_X), G(KC_C), G(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, SHOW_APPS, MUTE,    _______,
+        _______, G(KC_Z),        G(KC_X), G(KC_C), G(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, MAC_SHOW_APPS, MUTE,    _______,
                                           _______, _______,  _______,                     _______, _______, _______
     ),
 
