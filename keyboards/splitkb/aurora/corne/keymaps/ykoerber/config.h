@@ -40,7 +40,19 @@
 //avoid the following: if entering " =" I'll get "  j" because I tap the space key twice, and the second hold is interpreted as holding space
 #define QUICK_TAP_TERM 0
 
+// achordion :D
 #define CHORDAL_HOLD
 
+
+// mouse stuff
+//constant cursor speed
 #define MK_3_SPEED
-#define MOUSEKEY_INTERVAL 11
+// holding keys for changing speed
+#define MK_MOMENTARY_ACCEL
+//set speed settings
+#define MOUSEKEY_INTERVAL_UNMOD 11
+#define MK_C_OFFSET_UNMOD 24
+#define MK_C_OFFSET_2 60
+
+#define MOUSEKEY_INTERVAL_1 11
+//#define MK_C_OFFSET_UNMOD 24

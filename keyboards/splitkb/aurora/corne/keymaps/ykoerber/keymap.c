@@ -12,14 +12,14 @@ enum custom_keycodes {
 
 #define DEFAULT 0
 #define MAC_DEFAULT 1
-#define SYM 2
-#define MAC_SYM 3
-#define NUM 4
-#define MAC_NUM 5
-#define NAV 6
-#define MAC_NAV 7
-#define MOUSE_LAYER 8
-#define MAC_MOUSE_LAYER 9
+#define MOUSE_LAYER 2
+#define MAC_MOUSE_LAYER 3
+#define SYM 4
+#define MAC_SYM 5
+#define NUM 6
+#define MAC_NUM 7
+#define NAV 8
+#define MAC_NAV 9
 #define UTIL_LAYER 10
 #define MAC_UTIL_LAYER 11
 
@@ -62,21 +62,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //====================================================================================================================================================================================
   [DEFAULT] = LAYOUT_split_3x6_3(
     OSM(MOD_LSFT), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  OSM(MOD_RSFT),
-      KC_BSPC, GUI_T(KC_A),  ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,           KC_H,    SFT_T(KC_J),  CTL_T(KC_K),  ALT_T(KC_L), GUI_T(KC_SCLN), KC_ENTER,
-      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_ESC,  KC_DEL,
+    KC_BSPC, GUI_T(KC_A),  ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,           KC_H,    SFT_T(KC_J),  CTL_T(KC_K),  ALT_T(KC_L), GUI_T(KC_SCLN), KC_ENTER,
+    KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_ESC,  KC_DEL,
                                 PTT, MY_SPACE,  MO(NAV),                      OSL(NUM), PC_ESC, MOUSECLICK
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
-   _______, _______, _______, _______, _______, _______,                                  _______, _______, _______, _______, _______, _______,
-      _______, CTL_T(KC_A),  ALT_T(KC_S), GUI_T(KC_D), SFT_T(KC_F), _______,                     _______,    SFT_T(KC_J),  GUI_T(KC_K),  ALT_T(KC_L), CTL_T(KC_SCLN), _______,
+    _______, _______, _______, _______, _______, _______,                                  _______, _______, _______, _______, _______, _______,
+    _______, CTL_T(KC_A),  _______, GUI_T(KC_D), _______, _______,                     _______,    SFT_T(KC_J),  GUI_T(KC_K),  ALT_T(KC_L), CTL_T(KC_SCLN), _______,
     _______, _______, _______, _______, _______, _______,                                  _______, _______, _______, _______, _______, _______,
                                 _______, MAC_MY_SPACE,  MO(MAC_NAV),                                OSL(MAC_NUM), MAC_ESC, _______
   ),
 
 
-
    //====================================================================================================================================================================================
+
+  [MOUSE_LAYER] = LAYOUT_split_3x6_3(
+      _______, KC_WBAK, KC_WFWD, MS_ACL2, XXXXXXX, XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
+      _______,KC_LCTL, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
+      _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLL, MS_DOWN, MS_WHLR, XXXXXXX, _______,
+                          _______,   TO(DEFAULT),   MO(NAV),            MO(NUM),   TO(DEFAULT), XXXXXXX
+  ),
+  [MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3(
+     _______, G(KC_LBRC), G(KC_RBRC), MS_ACL2, XXXXXXX, XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
+      _______,KC_LGUI, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
+      _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLR, MS_DOWN, MS_WHLL, XXXXXXX, _______,
+                                   _______, TO(MAC_DEFAULT) , MO(MAC_NAV),     MO(MAC_NUM),   TO(MAC_DEFAULT), XXXXXXX
+    ),
+//====================================================================================================================================================================================
+
+
+
+
   [SYM] = LAYOUT_split_3x6_3(
       _______, KC_PIPE, KC_AMPR, KC_LPRN, KC_RPRN, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, _______,
       _______, GUI_T(KC_QUOT), ALT_T(KC_SLSH), CTL_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV), _______,
@@ -122,23 +139,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_LCTL,            KC_LALT, KC_LGUI, KC_LSFT,  KC_VOLU,                       UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, _______,
         _______, G(KC_Z),        G(KC_X), G(KC_C), G(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, MAC_SHOW_APPS, MUTE,    _______,
                                           _______, _______,  _______,                     _______, _______, _______
-    ),
-
-//====================================================================================================================================================================================
-
-
-
-  [MOUSE_LAYER] = LAYOUT_split_3x6_3(
-     QK_BOOT, MS_WHLL, MS_WHLU, MS_UP, MS_WHLD, MS_WHLR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-      _______,XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX,                     XXXXXXX, MS_ACL2, MS_ACL1, MS_ACL0, XXXXXXX, _______,
-      _______,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-                          _______,   TO(DEFAULT),   MO(MAC_NAV),            MS_BTN2,   MS_BTN1, MS_BTN3
-  ),
-  [MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3(
-     QK_BOOT, MS_WHLL, MS_WHLU, MS_UP, MS_WHLD, MS_WHLR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-      _______,XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX,                     XXXXXXX, MS_ACL2, MS_ACL1, MS_ACL0, XXXXXXX, _______,
-      _______,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-                                   _______,   TO(MAC_DEFAULT), _______,     MS_BTN2,   MS_BTN1, MS_BTN3
     ),
 
 //====================================================================================================================================================================
