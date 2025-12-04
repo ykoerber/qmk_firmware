@@ -62,14 +62,14 @@ combo_t key_combos[COMBO_COUNT] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //====================================================================================================================================================================================
   [DEFAULT] = LAYOUT_split_3x6_3(
-    OSM(MOD_LSFT), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  OSM(MOD_RSFT),
+    OSM(MOD_LSFT), KC_Q,    KC_W,    KC_E,    LT(UTIL_LAYER, KC_R),    KC_T,                         KC_Y,    LT(UTIL_LAYER, KC_U),    KC_I,    KC_O,   KC_P,  OSM(MOD_RSFT),
     KC_BSPC, GUI_T(KC_A),  ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,           KC_H,    SFT_T(KC_J),  CTL_T(KC_K),  ALT_T(KC_L), GUI_T(KC_SCLN), KC_ENTER,
     KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_ESC,  KC_DEL,
                                 PTT, MY_SPACE,  MO(NAV),                      OSL(NUM), PC_ESC, MOUSECLICK
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
-    _______, _______, _______, _______, _______, _______,                                  _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, LT(MAC_UTIL_LAYER,KC_R), _______,                                  _______, LT(MAC_UTIL_LAYER, KC_U), _______, _______, _______, _______,
     _______, CTL_T(KC_A),  _______, GUI_T(KC_D), _______, _______,                     _______,    SFT_T(KC_J),  GUI_T(KC_K),  ALT_T(KC_L), CTL_T(KC_SCLN), _______,
     _______, _______, _______, _______, _______, _______,                                  _______, _______, _______, _______, _______, _______,
                                 _______, MAC_MY_SPACE,  MO(MAC_NAV),                                OSL(MAC_NUM), MAC_ESC, _______
