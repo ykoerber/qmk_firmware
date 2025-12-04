@@ -14,14 +14,15 @@ enum custom_keycodes {
 #define MAC_DEFAULT 1
 #define MOUSE_LAYER 2
 #define MAC_MOUSE_LAYER 3
-#define SYM 4
-#define MAC_SYM 5
-#define NUM 6
-#define MAC_NUM 7
-#define NAV 8
-#define MAC_NAV 9
-#define UTIL_LAYER 10
-#define MAC_UTIL_LAYER 11
+#define SCROLL_LAYER 4
+#define SYM 5
+#define MAC_SYM 6
+#define NUM 7
+#define MAC_NUM 8
+#define NAV 9
+#define MAC_NAV 10
+#define UTIL_LAYER 11
+#define MAC_UTIL_LAYER 12
 
 
 
@@ -78,16 +79,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    //====================================================================================================================================================================================
 
   [MOUSE_LAYER] = LAYOUT_split_3x6_3(
-      _______, KC_WBAK, KC_WFWD, MS_ACL2, XXXXXXX, XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
+      _______, KC_WBAK, KC_WFWD, MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
       _______,KC_LCTL, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
       _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLL, MS_DOWN, MS_WHLR, XXXXXXX, _______,
                           _______,   TO(DEFAULT),   MO(NAV),            MO(NUM),   TO(DEFAULT), XXXXXXX
   ),
   [MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3(
-     _______, G(KC_LBRC), G(KC_RBRC), MS_ACL2, XXXXXXX, XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
+     _______, G(KC_LBRC), G(KC_RBRC), MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
       _______,KC_LGUI, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
       _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLR, MS_DOWN, MS_WHLL, XXXXXXX, _______,
                                    _______, TO(MAC_DEFAULT) , MO(MAC_NAV),     MO(MAC_NUM),   TO(MAC_DEFAULT), XXXXXXX
+    ),
+  [SCROLL_LAYER] = LAYOUT_split_3x6_3(
+      _______, _______, _______, _______, _______, _______,                      _______, _______, MS_WHLU, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,                      _______, MS_WHLR, MS_WHLD, MS_WHLL, _______, _______,
+      _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+                                   _______, _______,   _______,                  _______, _______, _______
     ),
 //====================================================================================================================================================================================
 
