@@ -27,7 +27,7 @@
 #endif
 
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
-#define COMBO_COUNT 2
+#define COMBO_COUNT 3
 //rgb
 #define RGBLIGHT_DEFAULT_HUE 169
 
