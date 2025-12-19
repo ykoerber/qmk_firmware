@@ -186,6 +186,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //====================================================================================================================================================================================
 };
 
+void send_key_or_another_if_shifted(int16_t keycode, int16_t keycode_shifted) {
+    const uint8_t mods = get_mods();
+    const uint8_t oneshot_mods = get_oneshot_mods();
+    if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+        del_mods(MOD_MASK_SHIFT);
+        del_oneshot_mods(MOD_MASK_SHIFT);
+        tap_code16(keycode_shifted);
+        set_mods(mods);
+    } else {
+        tap_code16(keycode);
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Get current mod and one-shot mod states.
@@ -284,14 +296,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     case UNDS_1:
         if (record->event.pressed) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code16(KC_1);
-                set_mods(mods);
-            } else {
-                tap_code16(KC_UNDS);
-            }
+            send_key_or_another_if_shifted(KC_UNDS, KC_1);
         }
         return false;
     case LCBR_2:
@@ -319,7 +324,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
     case ALT_T(SLSH_4):
-        if (record->event.pressed && record->tap.count) {
+        if (record->event.pressed && record->tap.count > 0) {
             if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
                 del_mods(MOD_MASK_SHIFT);
                 del_oneshot_mods(MOD_MASK_SHIFT);
