@@ -31,10 +31,8 @@ enum custom_keycodes {
 #define MAC_SYM 6
 #define NAV 7
 #define MAC_NAV 8
-#define UTIL_LAYER 9
-#define MAC_UTIL_LAYER 10
-#define NUM 11
-#define MAC_NUM 12
+#define NUM 9
+#define MAC_NUM 10
 
 
 #define PTT KC_F16
@@ -45,7 +43,7 @@ enum custom_keycodes {
 #define MAC_CLIPBOARD_HISTORY C(G(KC_F13))
 #define ACE_JUMP G(A(KC_F13))
 #define ACE_SCROLL S(G(A(KC_F13)))
-#define MY_SPACE LT(UTIL_LAYER, KC_SPC)
+#define MY_SPACE LT(NAV, KC_SPC)
 #define MAC_MY_SPACE LT(MAC_NAV, KC_SPC)
 #define SHOW_APPS C(A(KC_TAB))
 #define MAC_SHOW_APPS G(A(KC_TAB))
@@ -57,13 +55,6 @@ enum custom_keycodes {
 #define HR_K GUI_T(KC_K)
 #define HR_L ALT_T(KC_L)
 #define HR_SCLN CTL_T(KC_SCLN)
-
-//enum combos {
-//  RESET_LEFT,
-//  RESET_RIGHT,
-//  UI_ESC,
-//  CMB_CAPSWORD
-//};
 
 
 const uint16_t PROGMEM reset_left_combo[] = {KC_Q, KC_T, KC_B, COMBO_END};
@@ -84,14 +75,14 @@ combo_t key_combos[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //====================================================================================================================================================================================
   [DEFAULT] = LAYOUT_split_3x6_3(
-    OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           LT(UTIL_LAYER, KC_R),   KC_T,                               KC_Y,       LT(UTIL_LAYER, KC_U),   KC_I,                   KC_O,               KC_P,           OSM(MOD_RSFT),
+    OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,   KC_T,                               KC_Y,       KC_U,   KC_I,                   KC_O,               KC_P,           OSM(MOD_RSFT),
     KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,            KC_G,                               KC_H,       HR_J,                   CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN), KC_ENTER,
     KC_TAB,         KC_Z,           KC_X,           KC_C,           KC_V,                   KC_B,                               KC_N,       KC_M,                   COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  A(KC_BSPC),         KC_DEL,
                                     PTT,            MY_SPACE,       MO(NAV),                                                    OSL(NUM),   PC_ESC,                 MOUSECLICK
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
-    _______, _______, _______, _______, KC_R, _______,                   _______, KC_U, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
     _______, CTL_T(KC_A),  _______, GUI_T(KC_D), _______, _______,                          _______,    HR_J,  HR_K,  HR_L, HR_SCLN, _______,
     _______, _______, _______, _______, _______, _______,                                   _______, _______, _______, _______, _______, _______,
                                 _______, XXXXXXX,  MAC_MY_SPACE,                                OSL(MAC_SYM), XXXXXXX, _______
@@ -154,19 +145,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 //====================================================================================================================================================================
-
-    [UTIL_LAYER] = LAYOUT_split_3x6_3(
-     _______, KC_WBAK, KC_WFWD, XXXXXXX, CW_TOGG, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX , PDF(MAC_DEFAULT),
-      _______,XXXXXXX, XXXXXXX, XXXXXXX, ACE_JUMP, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-      _______,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-                                 _______,   _______,  _______,     _______,   _______, _______
-  ),
-    [MAC_UTIL_LAYER] = LAYOUT_split_3x6_3(
-     _______, G(KC_LBRC), G(KC_RBRC), G(S(KC_LBRC)), G(S(KC_RBRC)), TABS,                      XXXXXXX, G(KC_TILD), G(KC_GRV), XXXXXXX, XXXXXXX,  PDF(DEFAULT),
-     _______,KC_LCTL, KC_LALT, GUI_T(KC_TAB), SFT_T(KC_ENTER), ACE_JUMP,                 MAC_CLIPBOARD_HISTORY, SFT_T(KC_BSPC), GUI_T(KC_DEL), KC_LALT, KC_LCTL, _______,
-     _______, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17,                      KC_F18, KC_F19, KC_F20, KC_F21, KC_F21, _______,
-                                 _______,   XXXXXXX,  XXXXXXX,     MO(MAC_NUM),   XXXXXXX, _______
-  ),
 
 
   // number + FN =======================================================================================================================================================================
