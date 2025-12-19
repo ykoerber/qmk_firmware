@@ -62,13 +62,18 @@ const uint16_t PROGMEM reset_right_combo[] = {KC_Y, KC_P, KC_N, COMBO_END};
 const uint16_t PROGMEM mac_esc_combo[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM fj_combo[] = {HR_F, HR_J, COMBO_END};
 const uint16_t PROGMEM mouse_combo[] = {HR_F, KC_G, COMBO_END};
+const uint16_t PROGMEM switch_to_pc_combo[] = {KC_C, KC_V, KC_B, COMBO_END};
+const uint16_t PROGMEM switch_to_mac_combo[] = {KC_N, KC_M, COMMA_AND_QUEST_MARK, COMBO_END};
+
 
 combo_t key_combos[] = {
     COMBO(reset_left_combo, QK_BOOT),
     COMBO(reset_right_combo, QK_BOOT),
     COMBO(mac_esc_combo, KC_MY_ESC),
     COMBO(fj_combo, CW_TOGG),
-    COMBO(mouse_combo, TO(MAC_MOUSE_LAYER))
+    COMBO(mouse_combo, TO(MAC_MOUSE_LAYER)),
+    COMBO(switch_to_pc_combo, PDF(DEFAULT)),
+    COMBO(switch_to_mac_combo, PDF(MAC_DEFAULT))
 };
 
 
