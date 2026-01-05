@@ -28,5 +28,4 @@ LTO_ENABLE      = yes
 CAPS_WORD_ENABLE = yes
 COMMAND_ENABLE = no
 COMBO_ENABLE = yes
-
-SRC += features/achordion.c
+REPEAT_KEY_ENABLE = yes

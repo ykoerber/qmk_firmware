@@ -1,6 +1,7 @@
 #include QMK_KEYBOARD_H
-#include "features/achordion.h"
 #include "keymap_us_international.h"
+
+//todo allow writing - in caps word
 
 
 // custom key codes for e.g. macros
@@ -9,226 +10,179 @@ enum custom_keycodes {
   COMMA_AND_QUEST_MARK,
   DOT_AND_EXCL_MARK,
   KC_MY_ESC,
+  QUOT_0,
+  UNDS_1,
+  LCBR_2,
+  RCBR_3,
+  SLSH_4,
+  LBRC_5,
+  RBRC_6,
+  AMPR_7,
+  LPRN_8,
+  RPRN_9
 };
 
 #define DEFAULT 0
-#define SYM 1
-#define NUM 2
-#define NAV 3
-#define MOUSE_LAYER 4
-#define UTIL_LAYER 5
-#define UMLAUT 6
-#define MAC_DEFAULT 7
-#define MAC_SYM 8
-#define MAC_NUM 9
-#define MAC_NAV 10
-#define MAC_MOUSE_LAYER 11
-#define MAC_UTIL_LAYER 12
+#define MAC_DEFAULT 1
+#define MOUSE_LAYER 2
+#define MAC_MOUSE_LAYER 3
+#define SCROLL_LAYER 4
+#define SYM 5
+#define MAC_SYM 6
+#define NAV 7
+#define MAC_NAV 8
+#define NUM 9
+#define MAC_NUM 10
 
 
-#define PTT MEH(KC_F16)
-#define MUTE MEH(KC_F17)
+#define PTT KC_F16
+#define MUTE S(KC_F16)
 #define BOOKMARKS HYPR(KC_B)
 #define TABS MEH(KC_F13)
 #define MAC_CONTEXT_MENU HYPR(KC_F12)
 #define MAC_CLIPBOARD_HISTORY C(G(KC_F13))
 #define ACE_JUMP G(A(KC_F13))
 #define ACE_SCROLL S(G(A(KC_F13)))
-#define MY_SPACE LT(UTIL_LAYER, KC_SPC)
-#define MAC_MY_SPACE LT(MAC_UTIL_LAYER, KC_SPC)
-#define MY_ESC LT(SYM, KC_MY_ESC)
-#define MAC_MY_ESC LT(MAC_SYM, KC_MY_ESC) //KC_ESC geht, KC_MY_ESC nicht
+#define MY_SPACE LT(NAV, KC_SPC)
+#define MAC_MY_SPACE LT(MAC_NAV, KC_SPC)
 #define SHOW_APPS C(A(KC_TAB))
+#define MAC_SHOW_APPS G(A(KC_TAB))
 #define MOUSECLICK KC_F19
+#define MAC_ESC LT(MAC_SYM, KC_ESC)
+#define PC_ESC LT(SYM, KC_ESC)
+#define HR_J SFT_T(KC_J)
+#define HR_F SFT_T(KC_F)
+#define HR_K GUI_T(KC_K)
+#define HR_L ALT_T(KC_L)
+#define HR_SCLN CTL_T(KC_SCLN)
 
-
-
-// combos
-enum combos {
-  RESET_LEFT,
-  RESET_RIGHT,
-  SWITCH_MAC_WIN
-};
 
 const uint16_t PROGMEM reset_left_combo[] = {KC_Q, KC_T, KC_B, COMBO_END};
 const uint16_t PROGMEM reset_right_combo[] = {KC_Y, KC_P, KC_N, COMBO_END};
+const uint16_t PROGMEM mac_esc_combo[] = {KC_U, KC_I, COMBO_END};
+const uint16_t PROGMEM fj_combo[] = {HR_F, HR_J, COMBO_END};
+const uint16_t PROGMEM mouse_combo[] = {HR_F, KC_G, COMBO_END};
+const uint16_t PROGMEM switch_to_pc_combo[] = {KC_C, KC_V, KC_B, COMBO_END};
+const uint16_t PROGMEM switch_to_mac_combo[] = {KC_N, KC_M, COMMA_AND_QUEST_MARK, COMBO_END};
 
-combo_t key_combos[COMBO_COUNT] = {
-  [RESET_LEFT] = COMBO(reset_left_combo, QK_BOOT),
-  [RESET_RIGHT] = COMBO(reset_right_combo, QK_BOOT)
+
+combo_t key_combos[] = {
+    COMBO(reset_left_combo, QK_BOOT),
+    COMBO(reset_right_combo, QK_BOOT),
+    COMBO(mac_esc_combo, KC_MY_ESC),
+    COMBO(fj_combo, CW_TOGG),
+    COMBO(mouse_combo, TO(MAC_MOUSE_LAYER)),
+    COMBO(switch_to_pc_combo, PDF(DEFAULT)),
+    COMBO(switch_to_mac_combo, PDF(MAC_DEFAULT))
 };
-
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  //====================================================================================================================================================================================
   [DEFAULT] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-   OSM(MOD_LSFT), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  OSM(MOD_RSFT),
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_BSPC, GUI_T(KC_A),  ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,           KC_H,    SFT_T(KC_J),  CTL_T(KC_K),  ALT_T(KC_L), GUI_T(KC_SCLN), KC_ENTER,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_MY_ESC,  KC_DEL,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                PTT, MY_SPACE,  MO(NAV),                      OSL(NUM), LT(SYM, KC_ESC), MOUSECLICK
-                              //`--------------------------'                   `--------------------------'
-
-  ),
-
-  [SYM] = LAYOUT_split_3x6_3( //SYMBOL
-  //,-----------------------------------------------------.                                 ,-----------------------------------------------------.
-      KC_TRNS,  KC_PIPE, KC_AMPR, KC_LPRN, KC_RPRN, KC_DLR,                                     XXXXXXX, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                                     |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, GUI_T(KC_QUOT), ALT_T(KC_SLSH), CTL_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         XXXXXXX, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                                     |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     XXXXXXX, KC_AT, KC_LT, KC_GT, KC_COLN, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|                |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'                `--------------------------'
-  ),
-
-  [NUM] = LAYOUT_split_3x6_3( // number + FN
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F10, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, GUI_T(KC_0), ALT_T(KC_4),   CTL_T(KC_5), SFT_T(KC_6),  KC_DOT,     XXXXXXX, SFT_T(KC_F4), CTL_T(KC_F5), ALT_T(KC_F6), GUI_T(KC_F11), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F12, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS, KC_TRNS, KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-    [NAV] = LAYOUT_split_3x6_3( //NAV
-  //,-------------------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, TO(MOUSE_LAYER),KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                     C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_LGUI,        KC_LALT, KC_LCTL, KC_LSFT, KC_VOLU,                      UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, C(KC_Z),        C(KC_X), C(KC_C), C(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, SHOW_APPS, MUTE,    KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------+--------|
-                                        KC_TRNS, KC_TRNS,  KC_TRNS,                     KC_TRNS, KC_TRNS, KC_TRNS
-                                      //`--------------------------'                   `--------------------------'
-  ),
-
-
-  [MOUSE_LAYER] = LAYOUT_split_3x6_3( //mouse layer
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     QK_BOOT, XXXXXXX, XXXXXXX, MS_UP, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,GUI_T(KC_A), MS_LEFT, MS_DOWN, MS_RGHT, KC_G,                     XXXXXXX, MS_ACL2, MS_ACL1, MS_ACL0, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   TO(DEFAULT),  KC_TRNS,     MS_BTN2,   MS_BTN1, MS_BTN3
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-    [UTIL_LAYER] = LAYOUT_split_3x6_3( //util layer
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     KC_TRNS, KC_WBAK, KC_WFWD, XXXXXXX, CW_TOGG, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TO(MAC_DEFAULT),
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, ACE_JUMP, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
-
-  ),
-    [UMLAUT] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     KC_TRNS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, US_UDIA, XXXXXXX, US_ODIA, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,US_ADIA, US_SS, XXXXXXX, XXXXXXX, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
+    OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,   KC_T,                               KC_Y,       KC_U,   KC_I,                   KC_O,               KC_P,           OSM(MOD_RSFT),
+    KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,            KC_G,                               KC_H,       HR_J,                   CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN), KC_ENTER,
+    KC_TAB,         KC_Z,           KC_X,           KC_C,           KC_V,                   KC_B,                               KC_N,       KC_M,                   COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  A(KC_BSPC),         KC_DEL,
+                                    PTT,            MY_SPACE,       MO(NAV),                                                    OSL(NUM),   PC_ESC,                 MOUSECLICK
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-   OSM(MOD_LSFT), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  OSM(MOD_RSFT),
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_BSPC, CTL_T(KC_A),  ALT_T(KC_S), GUI_T(KC_D), SFT_T(KC_F), KC_G,           KC_H,    SFT_T(KC_J),  GUI_T(KC_K),  ALT_T(KC_L), CTL_T(KC_SCLN), KC_ENTER,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TAB,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, COMMA_AND_QUEST_MARK,  DOT_AND_EXCL_MARK, KC_MY_ESC,  KC_DEL,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                PTT, MAC_MY_SPACE,  MO(MAC_NAV),                      OSL(MAC_NUM), LT(SYM, KC_ESC), MOUSECLICK
-                              //`--------------------------'                   `--------------------------'
-
-  ),
-
-  [MAC_SYM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                                 ,-----------------------------------------------------.
-      KC_TRNS,  KC_PIPE, KC_AMPR, KC_LPRN, KC_RPRN, KC_DLR,                                     XXXXXXX, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                                     |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, CTL_T(KC_QUOT), ALT_T(KC_SLSH), GUI_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         XXXXXXX, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                                     |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     XXXXXXX, KC_AT, KC_LT, KC_GT, KC_COLN, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|                |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'                `--------------------------'
-  ),
-
-  [MAC_NUM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F10, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, CTL_T(KC_0), ALT_T(KC_4),   GUI_T(KC_5), SFT_T(KC_6),  KC_DOT,     XXXXXXX, SFT_T(KC_F4), GUI_T(KC_F5), ALT_T(KC_F6), CTL_T(KC_F11), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F12, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS, KC_TRNS, KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-    [MAC_NAV] = LAYOUT_split_3x6_3(
-  //,-------------------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_TRNS, TO(MAC_MOUSE_LAYER),KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                     G(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_LCTL,     KC_LALT, KC_LGUI, KC_LSFT, KC_VOLU,                      UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, G(KC_Z),        G(KC_X), G(KC_C), G(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, SHOW_APPS, MUTE,    KC_TRNS,
-  //|--------+----------------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------+--------|
-                                        KC_TRNS, KC_TRNS,  KC_TRNS,                     KC_TRNS, KC_TRNS, KC_TRNS
-                                      //`--------------------------'                   `--------------------------'
+    _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
+    _______, CTL_T(KC_A),  _______, GUI_T(KC_D), _______, _______,                          _______,    HR_J,  HR_K,  HR_L, HR_SCLN, _______,
+    _______, _______, _______, _______, _______, _______,                                   _______, _______, _______, _______, _______, _______,
+                                _______, XXXXXXX,  MAC_MY_SPACE,                                OSL(MAC_SYM), XXXXXXX, _______
   ),
 
 
-[MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3( //mouse layer
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     QK_BOOT, MS_WHLL, MS_WHLU, MS_UP, MS_WHLD, MS_WHLR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,GUI_T(KC_A), MS_LEFT, MS_DOWN, MS_RGHT, KC_G,                     XXXXXXX, MS_ACL0, MS_ACL1, MS_ACL2, XXXXXXX, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_A,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TO(MAC_DEFAULT), KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   TO(MAC_DEFAULT),  MO(MAC_NAV),     MS_BTN2,   MS_BTN1, MS_BTN3
-                                      //`--------------------------'  `--------------------------'
+   //====================================================================================================================================================================================
+
+  [MOUSE_LAYER] = LAYOUT_split_3x6_3(
+      _______, KC_WBAK, KC_WFWD, MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
+      _______,KC_LCTL, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
+      _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLL, MS_DOWN, MS_WHLR, XXXXXXX, _______,
+                          _______,   TO(DEFAULT),   MO(NAV),            MO(NUM),   TO(DEFAULT), XXXXXXX
+  ),
+  [MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3(
+     _______, G(KC_LBRC), G(KC_RBRC), MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
+      _______,KC_LGUI, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
+      _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLR, MS_DOWN, MS_WHLL, XXXXXXX, _______,
+                                   _______, TO(MAC_DEFAULT) , TO(MAC_DEFAULT),     TO(MAC_DEFAULT),   TO(MAC_DEFAULT), XXXXXXX
+    ),
+  [SCROLL_LAYER] = LAYOUT_split_3x6_3(
+      _______, _______, _______, _______, _______, _______,                      _______, _______, MS_WHLU, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,                      _______, MS_WHLR, MS_WHLD, MS_WHLL, _______, _______,
+      _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+                                   _______, _______,   _______,                  _______, _______, _______
+    ),
+//====================================================================================================================================================================================
+
+
+
+
+  [SYM] = LAYOUT_split_3x6_3(
+      _______, KC_PIPE, KC_AMPR, KC_LPRN, RPRN_9, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, _______,
+      _______, GUI_T(KC_QUOT), ALT_T(KC_SLSH), CTL_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV), _______,
+      _______, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     _______, KC_AT, KC_LT, KC_GT, KC_COLN, _______,
+                                   _______, _______, _______,                        _______,   _______, _______
+  ),
+    [MAC_SYM] = LAYOUT_split_3x6_3(
+      _______, KC_PIPE, AMPR_7, LPRN_8, RPRN_9, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, _______,
+      _______, CTL_T(QUOT_0), ALT_T(SLSH_4), GUI_T(LBRC_5), SFT_T(RBRC_6), KC_DQUO  ,        _______, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV), _______,
+      _______, KC_TILD, UNDS_1, LCBR_2, RCBR_3, KC_HASH,                                     _______, KC_AT, KC_LT, KC_GT, KC_COLN, _______,
+                                   _______, XXXXXXX, MO(MAC_NUM),                       XXXXXXX,   XXXXXXX, _______
+    ),
+//====================================================================================================================================================================================
+
+
+    [NAV] = LAYOUT_split_3x6_3( //NAV
+        _______, TO(MOUSE_LAYER),KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                     C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
+        _______, KC_LGUI,        KC_LALT, KC_LCTL, KC_LSFT, KC_VOLU,                      UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, _______,
+        _______, C(KC_Z),        C(KC_X), C(KC_C), C(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, SHOW_APPS, MUTE,    _______,
+                                        _______, _______,  _______,                     _______, _______, _______
   ),
 
-    [MAC_UTIL_LAYER] = LAYOUT_split_3x6_3( //KC_F19 ACE_JUMP   SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV), BOOKMARKS
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------|
-     KC_TRNS, G(KC_LBRC), G(KC_RBRC), G(S(KC_LBRC)), G(S(KC_RBRC)), TABS,                      XXXXXXX, G(KC_TILD), G(KC_GRV), XXXXXXX, XXXXXXX, TO(DEFAULT),
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS,KC_LCTL, KC_LALT, GUI_T(KC_TAB), SFT_T(KC_ENTER), ACE_JUMP,                 MAC_CLIPBOARD_HISTORY, SFT_T(KC_BSPC), GUI_T(KC_DEL), KC_LALT, KC_LCTL, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TRNS, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17,                      KC_F18, KC_F19, KC_F20, KC_F21, KC_F21, KC_TRNS,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                 KC_TRNS,   KC_TRNS,  KC_TRNS,     KC_TRNS,   KC_TRNS, KC_TRNS
-                                      //`--------------------------'  `--------------------------'
+  //UG_TOGG UG_HUEU
+      [MAC_NAV] = LAYOUT_split_3x6_3(
+        KC_VOLU, G(KC_LBRC),            G(KC_RBRC),    G(KC_LBRC), G(KC_RBRC),        QK_REP,                       G(KC_Y),                KC_PGUP,    KC_UP,  KC_PGDN, KC_PAUS, KC_MNXT,
+        KC_VOLD, CTL_T(KC_DEL),         ALT_T(KC_TAB),  GUI_T(KC_BSPC),     SFT_T(KC_ENTER),            MOUSECLICK,                 MAC_CLIPBOARD_HISTORY,  KC_LEFT,    KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, KC_MPRV,
+        KC_MUTE, G(KC_Z),               G(KC_X),        G(KC_C),            G(KC_V),                    MAC_SHOW_APPS,              TABS,                KC_HOME,    KC_END, KC_MY_ESC, _______,    KC_MPLY,
+                                          _______, _______,  _______,                     MO(MAC_NUM), _______, _______
+    ),
 
-  )
+//====================================================================================================================================================================
+
+
+  // number + FN =======================================================================================================================================================================
+    [NUM] = LAYOUT_split_3x6_3(
+        _______, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         _______, KC_F7, KC_F8, KC_F9, KC_F10, _______,
+        _______, GUI_T(KC_0), ALT_T(KC_4),   CTL_T(KC_5), SFT_T(KC_6),  KC_DOT,       _______, SFT_T(KC_F4), CTL_T(KC_F5), ALT_T(KC_F6), GUI_T(KC_F11), _______,
+        _______, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
+                                            _______, _______, _______,                _______, _______, _______
+    ),
+     [MAC_NUM] = LAYOUT_split_3x6_3(
+        _______, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         _______, KC_F7, KC_F8, KC_F9, KC_F10, _______,
+         _______, CTL_T(KC_0), ALT_T(KC_4),   GUI_T(KC_5), SFT_T(KC_6),  KC_DOT,      _______, SFT_T(KC_F4), GUI_T(KC_F5), ALT_T(KC_F6), CTL_T(KC_F11), _______,
+        _______, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
+                                            _______, XXXXXXX, XXXXXXX,                            XXXXXXX, XXXXXXX, _______
+     )
+
+  //====================================================================================================================================================================================
 };
 
+void send_key_or_another_if_shifted(int16_t keycode, int16_t keycode_shifted) {
+    const uint8_t mods = get_mods();
+    const uint8_t oneshot_mods = get_oneshot_mods();
+    if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+        del_mods(MOD_MASK_SHIFT);
+        del_oneshot_mods(MOD_MASK_SHIFT);
+        tap_code16(keycode_shifted);
+        set_mods(mods);
+    } else {
+        tap_code16(keycode);
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_achordion(keycode, record)) {
-        return false;
-    }
-
     // Get current mod and one-shot mod states.
     const uint8_t mods = get_mods();
     const uint8_t oneshot_mods = get_oneshot_mods();
@@ -276,13 +230,151 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         }
         return false;
+    case PC_ESC:
+        if (record->tap.count == 0) {
+            //key is being held => use normal LT behavior
+            return true;
+        } else if(record->event.pressed && is_caps_word_on()) {
+            caps_word_off();
+            return false;
+        } else if(record->event.pressed) {
+            tap_code(KC_ESC);
+            return false;
+        } else {
+            return false;
+        }
+    case MAC_ESC:
+        if (record->tap.count == 0) {
+            //key is being held => use normal LT behavior
+            return true;
+        } else if(record->event.pressed && is_caps_word_on()) {
+            caps_word_off();
+            return false;
+        } else if(record->event.pressed) {
+            tap_code(KC_ESC);
+            return false;
+        } else {
+            return false;
+        }
     case KC_MY_ESC:
-        if(record -> event.pressed) {
-            if(is_caps_word_on()) {
-                //turn caps_word off on escape and consume escape
-                caps_word_off();
+        if(record->event.pressed && is_caps_word_on()) {
+            caps_word_off();
+            return false;
+        } else if(record->event.pressed) {
+            tap_code(KC_ESC);
+            return false;
+        }
+        //CTL_T(QUOT_0), ALT_T(SLSH_4), GUI_T(LBRC_5), SFT_T(RBRC_6)
+    case CTL_T(QUOT_0):
+        if (record->event.pressed) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                tap_code16(KC_0);
+                set_mods(mods);
             } else {
-                tap_code16(KC_ESC);
+                tap_code16(KC_QUOT);
+            }
+        }
+        return false;
+    case UNDS_1:
+        if (record->event.pressed) {
+            send_key_or_another_if_shifted(KC_UNDS, KC_1);
+        }
+        return false;
+    case LCBR_2:
+        if (record->event.pressed) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                tap_code16(KC_2);
+                set_mods(mods);
+            } else {
+                tap_code16(KC_LCBR);
+            }
+        }
+        return false;
+    case RCBR_3:
+        if (record->event.pressed) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                tap_code16(KC_3);
+                set_mods(mods);
+            } else {
+                tap_code16(KC_RCBR);
+            }
+        }
+        return false;
+    case ALT_T(SLSH_4):
+        if (record->event.pressed && record->tap.count > 0) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                tap_code16(KC_4);
+                set_mods(mods);
+            } else {
+                tap_code16(KC_SLSH);
+            }
+        }
+        return false;
+    case GUI_T(LBRC_5):
+        if (record->event.pressed && record->tap.count) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                tap_code16(KC_5);
+                set_mods(mods);
+            } else {
+                tap_code16(KC_LBRC);
+            }
+        }
+        return false;
+    case SFT_T(RBRC_6):
+        if (record->event.pressed && record->tap.count) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                tap_code16(KC_6);
+                set_mods(mods);
+            } else {
+                tap_code16(KC_RBRC);
+            }
+        }
+        return false;
+    case AMPR_7:
+        if (record->event.pressed) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                tap_code16(KC_7);
+                set_mods(mods);
+            } else {
+                tap_code16(KC_AMPR);
+            }
+        }
+        return false;
+    case LPRN_8:
+        if (record->event.pressed) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                tap_code16(KC_8);
+                set_mods(mods);
+            } else {
+                tap_code16(KC_LPRN);
+            }
+        }
+        return false;
+    case RPRN_9:
+        if (record->event.pressed) {
+            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                del_oneshot_mods(MOD_MASK_SHIFT);
+                tap_code(KC_9);
+                set_mods(mods);
+            } else {
+                tap_code16(S(KC_0));
             }
         }
         return false;
@@ -292,27 +384,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-void matrix_scan_user(void) {
-  achordion_task();
-}
-
-bool achordion_chord(uint16_t tap_hold_keycode,
-                     keyrecord_t* tap_hold_record,
-                     uint16_t other_keycode,
-                     keyrecord_t* other_record) {
-  // allow same-hand holds for the space key. This is necessary because the space key is a LT key
-  switch (tap_hold_keycode) {
-    case MY_SPACE:
-    case MAC_MY_SPACE:
-//    case MY_ESC:
-//    case MAC_MY_ESC:
-      return true;
-  }
-
-  // opposite hands rule as default
-  return achordion_opposite_hands(tap_hold_record, other_record);
-}
-
 
 #ifdef RGBLIGHT_ENABLE
 void keyboard_post_init_user(void) {
@@ -321,3 +392,34 @@ void keyboard_post_init_user(void) {
 //   rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // sets mode to Fast breathing without saving
 }
 #endif
+
+
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
+    LAYOUT_split_3x6_3(
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
+                       '*', '*', '*',  '*', '*', '*'
+    );
+
+
+bool caps_word_press_user(uint16_t keycode) {
+  switch (keycode) {
+    // Keycodes that continue Caps Word, with shift applied.
+    case KC_A ... KC_Z:
+      add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
+      return true;
+
+    // Keycodes that continue Caps Word, without shifting.
+    case KC_1 ... KC_0:
+    case KC_BSPC:
+    case KC_DEL:
+    // I have a dedicated underscore key, so no need to shift KC_MINS.
+    case KC_MINS:
+    case KC_UNDS:
+      return true;
+
+    default:
+      return false;  // Deactivate Caps Word.
+  }
+}
