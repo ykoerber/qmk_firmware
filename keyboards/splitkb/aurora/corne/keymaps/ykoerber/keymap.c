@@ -1,8 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "keymap_us_international.h"
 
-//todo allow writing - in caps word
-
 
 // custom key codes for e.g. macros
 enum custom_keycodes {
@@ -36,7 +34,7 @@ enum custom_keycodes {
 
 
 #define PTT KC_F16
-#define MUTE S(KC_F16)
+#define MUTE A(S(KC_F18))
 #define BOOKMARKS HYPR(KC_B)
 #define TABS MEH(KC_F13)
 #define MAC_CONTEXT_MENU HYPR(KC_F12)
@@ -80,17 +78,17 @@ combo_t key_combos[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //====================================================================================================================================================================================
   [DEFAULT] = LAYOUT_split_3x6_3(
-    OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,   KC_T,                               KC_Y,       KC_U,   KC_I,                   KC_O,               KC_P,           OSM(MOD_RSFT),
-    KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,            KC_G,                               KC_H,       HR_J,                   CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN), KC_ENTER,
-    KC_TAB,         KC_Z,           KC_X,           KC_C,           KC_V,                   KC_B,                               KC_N,       KC_M,                   COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  A(KC_BSPC),         KC_DEL,
-                                    PTT,            MY_SPACE,       MO(NAV),                                                    OSL(NUM),   PC_ESC,                 MOUSECLICK
+    OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,       KC_T,                    KC_Y,       KC_U,      KC_I,                   KC_O,               KC_P,               OSM(MOD_RSFT),
+    KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,       KC_G,                    KC_H,       HR_J,      CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN),     KC_ENTER,
+    KC_TAB,         KC_Z,           KC_X,           KC_C,           KC_V,       KC_B,                    KC_N,       KC_M,      COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  C(KC_BSPC),         KC_DEL,
+                                    MUTE,            PTT,           MY_SPACE,                            MO(NUM),    PC_ESC,    MOUSECLICK
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
-    _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
-    _______, CTL_T(KC_A),  _______, GUI_T(KC_D), _______, _______,                          _______,    HR_J,  HR_K,  HR_L, HR_SCLN, _______,
-    _______, _______, _______, _______, _______, _______,                                   _______, _______, _______, _______, _______, _______,
-                                _______, XXXXXXX,  MAC_MY_SPACE,                                OSL(MAC_SYM), XXXXXXX, _______
+    _______,        _______,        _______,        _______,        _______,    _______,                   _______, _______, _______, _______, _______, _______,
+    _______,        CTL_T(KC_A),    _______,        GUI_T(KC_D),    _______,    _______,                   _______,    HR_J,  HR_K,  HR_L, HR_SCLN, _______,
+    _______,        _______,        _______,        _______,        _______,    _______,                   _______, _______, _______, _______, A(KC_BSPC), _______,
+                                    _______,        _______,        MAC_MY_SPACE,                                MO(MAC_SYM), XXXXXXX, _______
   ),
 
 
@@ -120,10 +118,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
   [SYM] = LAYOUT_split_3x6_3(
-      _______, KC_PIPE, KC_AMPR, KC_LPRN, RPRN_9, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, _______,
-      _______, GUI_T(KC_QUOT), ALT_T(KC_SLSH), CTL_T(KC_LBRC), SFT_T(KC_RBRC), KC_DQUO,         _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV), _______,
-      _______, KC_TILD, KC_UNDS, KC_LCBR, KC_RCBR, KC_HASH,                                     _______, KC_AT, KC_LT, KC_GT, KC_COLN, _______,
-                                   _______, _______, _______,                        _______,   _______, _______
+      _______,  KC_PIPE,            AMPR_7,         LPRN_8,         RPRN_9,         KC_DLR,         _______, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
+      _______,  GUI_T(KC_QUOT),     ALT_T(SLSH_4),  CTL_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,        _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
+      _______,  KC_TILD,            UNDS_1,         LCBR_2,         RCBR_3,         KC_HASH,        _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
+                                                    _______,        _______,        MO(NUM),        _______, _______,       _______
   ),
     [MAC_SYM] = LAYOUT_split_3x6_3(
       _______, KC_PIPE, AMPR_7, LPRN_8, RPRN_9, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, _______,
@@ -134,37 +132,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //====================================================================================================================================================================================
 
 
-    [NAV] = LAYOUT_split_3x6_3( //NAV
-        _______, TO(MOUSE_LAYER),KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,                     C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
-        _______, KC_LGUI,        KC_LALT, KC_LCTL, KC_LSFT, KC_VOLU,                      UG_TOGG, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, _______,
-        _______, C(KC_Z),        C(KC_X), C(KC_C), C(KC_V), KC_VOLD,                      UG_HUEU, KC_HOME, KC_END, SHOW_APPS, MUTE,    _______,
-                                        _______, _______,  _______,                     _______, _______, _______
-  ),
+[NAV] = LAYOUT_split_3x6_3(
+_______, TO(MOUSE_LAYER),   KC_MPRV,        _______,        _______,            _______,                C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
+_______, GUI_T(KC_DEL),     ALT_T(KC_TAB),  CTL_T(KC_BSPC), SFT_T(KC_ENTER),    KC_VOLU,                _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, _______,
+_______, C(KC_Z),           C(KC_X),        C(KC_C),        C(KC_V),            KC_VOLD,                _______, KC_HOME, KC_END, SHOW_APPS, MUTE,    _______,
+                                            _______,        _______,            _______,                _______, _______, _______
+),
 
-  //UG_TOGG UG_HUEU
-      [MAC_NAV] = LAYOUT_split_3x6_3(
-        KC_VOLU, G(KC_LBRC),            G(KC_RBRC),    G(KC_LBRC), G(KC_RBRC),        QK_REP,                       G(KC_Y),                KC_PGUP,    KC_UP,  KC_PGDN, KC_PAUS, KC_MNXT,
-        KC_VOLD, CTL_T(KC_DEL),         ALT_T(KC_TAB),  GUI_T(KC_BSPC),     SFT_T(KC_ENTER),            MOUSECLICK,                 MAC_CLIPBOARD_HISTORY,  KC_LEFT,    KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, KC_MPRV,
-        KC_MUTE, G(KC_Z),               G(KC_X),        G(KC_C),            G(KC_V),                    MAC_SHOW_APPS,              TABS,                KC_HOME,    KC_END, KC_MY_ESC, _______,    KC_MPLY,
-                                          _______, _______,  _______,                     MO(MAC_NUM), _______, _______
-    ),
+[MAC_NAV] = LAYOUT_split_3x6_3(
+_______, G(KC_LBRC),        G(KC_RBRC),     G(KC_LBRC),     G(KC_RBRC),        QK_REP,              G(KC_Y),                KC_PGUP,    KC_UP,  KC_PGDN, KC_PAUS, _______,
+_______, CTL_T(KC_DEL),     ALT_T(KC_TAB),  GUI_T(KC_BSPC), SFT_T(KC_ENTER),   MOUSECLICK,          MAC_CLIPBOARD_HISTORY,  KC_LEFT,    KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, _______,
+_______, G(KC_Z),           G(KC_X),        G(KC_C),        G(KC_V),           MAC_SHOW_APPS,       TABS,                KC_HOME,    KC_END, KC_MY_ESC, _______,    _______,
+                                  _______, _______,  _______,                                           MO(MAC_NUM), _______, _______
+),
 
 //====================================================================================================================================================================
 
 
-  // number + FN =======================================================================================================================================================================
-    [NUM] = LAYOUT_split_3x6_3(
-        _______, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         _______, KC_F7, KC_F8, KC_F9, KC_F10, _______,
-        _______, GUI_T(KC_0), ALT_T(KC_4),   CTL_T(KC_5), SFT_T(KC_6),  KC_DOT,       _______, SFT_T(KC_F4), CTL_T(KC_F5), ALT_T(KC_F6), GUI_T(KC_F11), _______,
-        _______, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
-                                            _______, _______, _______,                _______, _______, _______
-    ),
-     [MAC_NUM] = LAYOUT_split_3x6_3(
-        _______, KC_ASTR, KC_7,   KC_8,       KC_9,  KC_PPLS,                         _______, KC_F7, KC_F8, KC_F9, KC_F10, _______,
-         _______, CTL_T(KC_0), ALT_T(KC_4),   GUI_T(KC_5), SFT_T(KC_6),  KC_DOT,      _______, SFT_T(KC_F4), GUI_T(KC_F5), ALT_T(KC_F6), CTL_T(KC_F11), _______,
-        _______, KC_SLSH, KC_1,   KC_2,       KC_3, KC_MINS,                          _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
-                                            _______, XXXXXXX, XXXXXXX,                            XXXXXXX, XXXXXXX, _______
-     )
+//=======================================================================================================================================================================
+[NUM] = LAYOUT_split_3x6_3(
+_______, _______,       KC_MNXT,        KC_MPLY,        KC_MNXT,        KC_MUTE,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         _______,
+_______, GUI_T(KC_0),   ALT_T(KC_4),    CTL_T(KC_5),    SFT_T(KC_6),    KC_VOLU,        _______, SFT_T(KC_F4),  CTL_T(KC_F5),   ALT_T(KC_F6),   GUI_T(KC_F11),  _______,
+_______, UG_TOGG,       UG_HUEU,        _______,        _______,        KC_VOLD,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         _______,
+                                        _______,        _______,        _______,        _______, _______, _______
+),
+[MAC_NUM] = LAYOUT_split_3x6_3(
+_______, _______,       KC_MNXT,        KC_MPLY,        KC_MNXT,        KC_MUTE,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         _______,
+_______, CTL_T(KC_0),   ALT_T(KC_4),    GUI_T(KC_5),    SFT_T(KC_ESC),  KC_VOLU,         _______, SFT_T(KC_F4),  GUI_T(KC_F5),   ALT_T(KC_F6),   CTL_T(KC_F11),  _______,
+_______, UG_TOGG,       UG_HUEU,        _______,        _______,        KC_VOLD,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         _______,
+                                        _______,        _______,        _______,        _______, _______,       _______
+)
 
   //====================================================================================================================================================================================
 };
