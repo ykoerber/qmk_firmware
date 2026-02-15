@@ -81,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,       KC_T,                    KC_Y,       KC_U,      KC_I,                   KC_O,               KC_P,               OSM(MOD_RSFT),
     KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,       KC_G,                    KC_H,       HR_J,      CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN),     KC_ENTER,
     KC_TAB,         KC_Z,           KC_X,           KC_C,           KC_V,       KC_B,                    KC_N,       KC_M,      COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  C(KC_BSPC),         KC_DEL,
-                                    MUTE,            PTT,           MY_SPACE,                            MO(NUM),    PC_ESC,    MOUSECLICK
+                                    MUTE,            PTT,           MY_SPACE,                            MO(SYM),    XXXXXXX,    MOUSECLICK
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
@@ -119,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [SYM] = LAYOUT_split_3x6_3(
       _______,  KC_PIPE,            AMPR_7,         LPRN_8,         RPRN_9,         KC_DLR,         _______, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
-      _______,  GUI_T(KC_QUOT),     ALT_T(SLSH_4),  CTL_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,        _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
+      _______,  GUI_T(QUOT_0),     ALT_T(SLSH_4),  CTL_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,        _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
       _______,  KC_TILD,            UNDS_1,         LCBR_2,         RCBR_3,         KC_HASH,        _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
                                                     _______,        _______,        MO(NUM),        _______, _______,       _______
   ),
@@ -136,7 +136,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 _______, TO(MOUSE_LAYER),   KC_MPRV,        _______,        _______,            _______,                C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
 _______, GUI_T(KC_DEL),     ALT_T(KC_TAB),  CTL_T(KC_BSPC), SFT_T(KC_ENTER),    KC_VOLU,                _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, _______,
 _______, C(KC_Z),           C(KC_X),        C(KC_C),        C(KC_V),            KC_VOLD,                _______, KC_HOME, KC_END, SHOW_APPS, MUTE,    _______,
-                                            _______,        _______,            _______,                _______, _______, _______
+                                            _______,        _______,            _______,                MO(NUM), _______, _______
 ),
 
 [MAC_NAV] = LAYOUT_split_3x6_3(
@@ -152,13 +152,13 @@ _______, G(KC_Z),           G(KC_X),        G(KC_C),        G(KC_V),           M
 //=======================================================================================================================================================================
 [NUM] = LAYOUT_split_3x6_3(
 _______, _______,       KC_MNXT,        KC_MPLY,        KC_MNXT,        KC_MUTE,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         _______,
-_______, GUI_T(KC_0),   ALT_T(KC_4),    CTL_T(KC_5),    SFT_T(KC_6),    KC_VOLU,        _______, SFT_T(KC_F4),  CTL_T(KC_F5),   ALT_T(KC_F6),   GUI_T(KC_F11),  _______,
+_______, GUI_T(KC_0),   ALT_T(KC_4),    CTL_T(KC_5),    SFT_T(KC_6),    KC_VOLU,        _______, SFT_T(KC_F4),  CTL_T(KC_F5),   ALT_T(KC_F6),   KC_F11,         _______,
 _______, UG_TOGG,       UG_HUEU,        _______,        _______,        KC_VOLD,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         _______,
-                                        _______,        _______,        _______,        _______, _______, _______
+                                        _______,        _______,        _______,        _______, _______,       _______
 ),
 [MAC_NUM] = LAYOUT_split_3x6_3(
 _______, _______,       KC_MNXT,        KC_MPLY,        KC_MNXT,        KC_MUTE,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         _______,
-_______, CTL_T(KC_0),   ALT_T(KC_4),    GUI_T(KC_5),    SFT_T(KC_ESC),  KC_VOLU,         _______, SFT_T(KC_F4),  GUI_T(KC_F5),   ALT_T(KC_F6),   CTL_T(KC_F11),  _______,
+_______, CTL_T(KC_0),   ALT_T(KC_4),    GUI_T(KC_5),    SFT_T(KC_ESC),  KC_VOLU,        _______, SFT_T(KC_F4),  GUI_T(KC_F5),   ALT_T(KC_F6),   KC_F11,  _______,
 _______, UG_TOGG,       UG_HUEU,        _______,        _______,        KC_VOLD,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         _______,
                                         _______,        _______,        _______,        _______, _______,       _______
 )
@@ -263,6 +263,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         //CTL_T(QUOT_0), ALT_T(SLSH_4), GUI_T(LBRC_5), SFT_T(RBRC_6)
     case CTL_T(QUOT_0):
+    case GUI_T(QUOT_0):
         if (record->event.pressed) {
             if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
                 del_mods(MOD_MASK_SHIFT);
@@ -316,6 +317,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
     case GUI_T(LBRC_5):
+    case CTL_T(LBRC_5):
         if (record->event.pressed && record->tap.count) {
             if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
                 del_mods(MOD_MASK_SHIFT);
