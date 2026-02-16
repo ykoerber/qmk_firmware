@@ -98,12 +98,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_WBAK, KC_WFWD, MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
       _______,KC_LCTL, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
       _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLL, MS_DOWN, MS_WHLR, XXXXXXX, _______,
-                          _______,   TO(DEFAULT),   MO(NAV),            MO(NUM),   TO(DEFAULT), XXXXXXX
+                          _______,   TO(DEFAULT),   TO(DEFAULT),            TO(DEFAULT),   TO(DEFAULT), XXXXXXX
   ),
   [MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3(
-     _______, G(KC_LBRC), G(KC_RBRC), MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
-      _______,KC_LGUI, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
-      _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLR, MS_DOWN, MS_WHLL, XXXXXXX, _______,
+      _______,  G(KC_LBRC), G(KC_RBRC), MS_ACL2, MO(SCROLL_LAYER),  XXXXXXX,                    XXXXXXX, MS_WHLU, MS_UP,    MS_WHLD, XXXXXXX, _______,
+      _______,  KC_LGUI,    KC_LSFT,    MS_ACL1, MS_BTN1,           MS_BTN2,                    XXXXXXX, MS_LEFT, MS_DOWN,  MS_RGHT, XXXXXXX, _______,
+      _______,  XXXXXXX,    XXXXXXX,    XXXXXXX, MS_BTN3,           XXXXXXX,                    XXXXXXX, MS_WHLR, MS_DOWN,  MS_WHLL, XXXXXXX, _______,
                                    _______, TO(MAC_DEFAULT) , TO(MAC_DEFAULT),     TO(MAC_DEFAULT),   TO(MAC_DEFAULT), XXXXXXX
     ),
   [SCROLL_LAYER] = LAYOUT_split_3x6_3(
@@ -133,14 +133,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 [NAV] = LAYOUT_split_3x6_3(
-_______, TO(MOUSE_LAYER),   KC_MPRV,        _______,        _______,            _______,                C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
+_______, _______,           _______,        _______,        TO(MOUSE_LAYER),    _______,                C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
 _______, GUI_T(KC_DEL),     ALT_T(KC_TAB),  CTL_T(KC_BSPC), SFT_T(KC_ENTER),    KC_VOLU,                _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, _______,
 _______, C(KC_Z),           C(KC_X),        C(KC_C),        C(KC_V),            KC_VOLD,                _______, KC_HOME, KC_END, SHOW_APPS, MUTE,    _______,
-                                            _______,        _______,            _______,                MO(NUM), _______, _______
+                                            _______,        _______,            _______,                _______, _______, _______
 ),
 
 [MAC_NAV] = LAYOUT_split_3x6_3(
-_______, G(KC_LBRC),        G(KC_RBRC),     G(KC_LBRC),     G(KC_RBRC),        QK_REP,              G(KC_Y),                KC_PGUP,    KC_UP,  KC_PGDN, KC_PAUS, _______,
+_______, _______,        _______,    _______,     TO(MAC_MOUSE_LAYER),        QK_REP,              G(KC_Y),                KC_PGUP,    KC_UP,  KC_PGDN, KC_PAUS, _______,
 _______, CTL_T(KC_DEL),     ALT_T(KC_TAB),  GUI_T(KC_BSPC), SFT_T(KC_ENTER),   MOUSECLICK,          MAC_CLIPBOARD_HISTORY,  KC_LEFT,    KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, _______,
 _______, G(KC_Z),           G(KC_X),        G(KC_C),        G(KC_V),           MAC_SHOW_APPS,       TABS,                KC_HOME,    KC_END, KC_MY_ESC, _______,    _______,
                                   _______, _______,  _______,                                           MO(MAC_NUM), _______, _______
