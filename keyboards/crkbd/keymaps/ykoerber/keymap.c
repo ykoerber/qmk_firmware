@@ -101,10 +101,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______,   TO(DEFAULT),   TO(DEFAULT),            TO(DEFAULT),   TO(DEFAULT), XXXXXXX
   ),
   [MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3(
-      _______,  G(KC_LBRC), G(KC_RBRC), MS_ACL2, MO(SCROLL_LAYER),  XXXXXXX,                    XXXXXXX, MS_WHLU, MS_UP,    MS_WHLD, XXXXXXX, _______,
-      _______,  KC_LGUI,    KC_LSFT,    MS_ACL1, MS_BTN1,           MS_BTN2,                    XXXXXXX, MS_LEFT, MS_DOWN,  MS_RGHT, XXXXXXX, _______,
-      _______,  XXXXXXX,    XXXXXXX,    XXXXXXX, MS_BTN3,           XXXXXXX,                    XXXXXXX, MS_WHLR, MS_DOWN,  MS_WHLL, XXXXXXX, _______,
-                                   _______, TO(MAC_DEFAULT) , TO(MAC_DEFAULT),     TO(MAC_DEFAULT),   TO(MAC_DEFAULT), XXXXXXX
+      _______,  G(KC_LBRC), G(KC_RBRC), MS_ACL2, MO(SCROLL_LAYER),  XXXXXXX,                    XXXXXXX,            MS_WHLU,            MS_UP,    MS_WHLD, XXXXXXX, _______,
+      _______,  KC_LGUI,    KC_LSFT,    MS_ACL1, MS_BTN1,           MS_BTN2,                    XXXXXXX,            MS_LEFT,            MS_DOWN,  MS_RGHT, XXXXXXX, _______,
+      _______,  XXXXXXX,    XXXXXXX,    XXXXXXX, MS_BTN3,           XXXXXXX,                    XXXXXXX,            MS_WHLR,            MS_DOWN,  MS_WHLL, XXXXXXX, _______,
+                                        _______, TO(MAC_DEFAULT),   TO(MAC_DEFAULT),            TO(MAC_DEFAULT),    TO(MAC_DEFAULT),    XXXXXXX
     ),
   [SCROLL_LAYER] = LAYOUT_split_3x6_3(
       _______, _______, _______, _______, _______, _______,                      _______, _______, MS_WHLU, _______, _______, _______,
@@ -117,18 +117,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 
-  [SYM] = LAYOUT_split_3x6_3(
-      _______,  KC_PIPE,            AMPR_7,         LPRN_8,         RPRN_9,         KC_DLR,         _______, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
-      _______,  GUI_T(QUOT_0),     ALT_T(SLSH_4),  CTL_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,        _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
-      _______,  KC_TILD,            UNDS_1,         LCBR_2,         RCBR_3,         KC_HASH,        _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
-                                                    _______,        _______,        MO(NUM),        _______, _______,       _______
-  ),
-    [MAC_SYM] = LAYOUT_split_3x6_3(
-      _______, KC_PIPE, AMPR_7, LPRN_8, RPRN_9, KC_DLR,                                     _______, KC_PERC, KC_PPLS, KC_ASTR, KC_CIRC, _______,
-      _______, CTL_T(QUOT_0), ALT_T(SLSH_4), GUI_T(LBRC_5), SFT_T(RBRC_6), KC_DQUO  ,        _______, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV), _______,
-      _______, KC_TILD, UNDS_1, LCBR_2, RCBR_3, KC_HASH,                                     _______, KC_AT, KC_LT, KC_GT, KC_COLN, _______,
-                                   _______, XXXXXXX, MO(MAC_NUM),                       XXXXXXX,   XXXXXXX, _______
-    ),
+[SYM] = LAYOUT_split_3x6_3(
+_______,  KC_PIPE,            AMPR_7,           LPRN_8,         RPRN_9,         KC_DLR,         _______, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
+_______,  GUI_T(QUOT_0),      ALT_T(SLSH_4),    CTL_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,        _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
+_______,  KC_TILD,            UNDS_1,           LCBR_2,         RCBR_3,         KC_HASH,        _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
+                                                _______,        _______,        MO(NUM),        _______, _______,       _______
+),
+[MAC_SYM] = LAYOUT_split_3x6_3(
+_______, KC_PIPE,       AMPR_7,         LPRN_8,         RPRN_9,         KC_DLR,             _______, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
+_______, CTL_T(QUOT_0), ALT_T(SLSH_4),  GUI_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,            _______, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV),  _______,
+_______, KC_TILD,       UNDS_1,         LCBR_2,         RCBR_3,         KC_HASH,            _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
+                                        _______,        XXXXXXX,        MO(MAC_NUM),        XXXXXXX, XXXXXXX,       _______
+),
 //====================================================================================================================================================================================
 
 
@@ -140,10 +140,10 @@ _______, C(KC_Z),           C(KC_X),        C(KC_C),        C(KC_V),            
 ),
 
 [MAC_NAV] = LAYOUT_split_3x6_3(
-_______, _______,        _______,    _______,     TO(MAC_MOUSE_LAYER),        QK_REP,              G(KC_Y),                KC_PGUP,    KC_UP,  KC_PGDN, KC_PAUS, _______,
-_______, CTL_T(KC_DEL),     ALT_T(KC_TAB),  GUI_T(KC_BSPC), SFT_T(KC_ENTER),   MOUSECLICK,          MAC_CLIPBOARD_HISTORY,  KC_LEFT,    KC_DOWN, KC_RIGHT, MAC_CONTEXT_MENU, _______,
-_______, G(KC_Z),           G(KC_X),        G(KC_C),        G(KC_V),           MAC_SHOW_APPS,       TABS,                KC_HOME,    KC_END, KC_MY_ESC, _______,    _______,
-                                  _______, _______,  _______,                                           MO(MAC_NUM), _______, _______
+_______, _______,           _______,        _______,        TO(MAC_MOUSE_LAYER),    QK_REP,              G(KC_Y),               KC_PGUP,    KC_UP,      KC_PGDN,    KC_PAUS,            _______,
+_______, CTL_T(KC_DEL),     ALT_T(KC_TAB),  GUI_T(KC_BSPC), SFT_T(KC_ENTER),        MOUSECLICK,          MAC_CLIPBOARD_HISTORY, KC_LEFT,    KC_DOWN,    KC_RIGHT,   MAC_CONTEXT_MENU,   _______,
+_______, G(KC_Z),           G(KC_X),        G(KC_C),        G(KC_V),                MAC_SHOW_APPS,       TABS,                  KC_HOME,    KC_END,     KC_MY_ESC,  _______,            _______,
+                                            _______,        _______,                _______,             MO(MAC_NUM),           _______,    _______
 ),
 
 //====================================================================================================================================================================
