@@ -78,17 +78,17 @@ combo_t key_combos[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //====================================================================================================================================================================================
   [DEFAULT] = LAYOUT_split_3x6_3(
-    OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,       KC_T,                    KC_Y,       KC_U,      KC_I,                   KC_O,               KC_P,               OSM(MOD_RSFT),
-    KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,       KC_G,                    KC_H,       HR_J,      CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN),     KC_ENTER,
-    KC_TAB,         KC_Z,           KC_X,           KC_C,           KC_V,       KC_B,                    KC_N,       KC_M,      COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  C(KC_BSPC),         KC_DEL,
-                                    MUTE,            PTT,           MY_SPACE,                            MO(SYM),    TO(MOUSE_LAYER),    MOUSECLICK
+    OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                    KC_Y,       KC_U,      KC_I,                   KC_O,               KC_P,               OSM(MOD_RSFT),
+    KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,           KC_G,                    KC_H,       HR_J,      CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN),     KC_ENTER,
+    KC_TAB,         KC_Z,           KC_X,           KC_C,           LT(SYM, KC_V),  KC_B,                    KC_N,       KC_M,      COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  C(KC_BSPC),         KC_DEL,
+                                    MUTE,            PTT,           MY_SPACE,                               MO(SYM),    TO(MOUSE_LAYER),    MOUSECLICK
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
-    _______,        _______,        _______,        _______,        _______,    _______,                    _______,        _______,                _______,    _______,    _______,    _______,
-    _______,        CTL_T(KC_A),    _______,        GUI_T(KC_D),    _______,    _______,                    _______,        HR_J,                   HR_K,       HR_L,       HR_SCLN,    _______,
-    _______,        _______,        _______,        _______,        _______,    _______,                    _______,        _______,                _______,    _______,    A(KC_BSPC), _______,
-                                    _______,        _______,        MAC_MY_SPACE,                           MO(MAC_SYM),    TO(MAC_MOUSE_LAYER),    _______
+    _______,        _______,        _______,        _______,        _______,            _______,                    _______,        _______,                _______,    _______,    _______,    _______,
+    _______,        CTL_T(KC_A),    _______,        GUI_T(KC_D),    _______,            _______,                    _______,        HR_J,                   HR_K,       HR_L,       HR_SCLN,    _______,
+    _______,        _______,        _______,        _______,        LT(MAC_SYM, KC_V),  _______,                    _______,        LT(MAC_SYM, KC_M),                _______,    _______,    A(KC_BSPC), _______,
+                                                    _______,        _______,            MAC_MY_SPACE,               MO(MAC_SYM),    TO(MAC_MOUSE_LAYER),    _______
   ),
 
 
@@ -124,9 +124,9 @@ _______,  KC_TILD,            UNDS_1,           LCBR_2,         RCBR_3,         
                                                 _______,        _______,        MO(NUM),        _______, _______,       _______
 ),
 [MAC_SYM] = LAYOUT_split_3x6_3(
-_______, KC_PIPE,       AMPR_7,         LPRN_8,         RPRN_9,         KC_DLR,             _______, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
-_______, CTL_T(QUOT_0), ALT_T(SLSH_4),  GUI_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,            _______, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV),  _______,
-_______, KC_TILD,       UNDS_1,         LCBR_2,         RCBR_3,         KC_HASH,            _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
+_______, KC_PIPE,       AMPR_7,         LPRN_8,         RPRN_9,         KC_DLR,             KC_EXLM, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
+_______, CTL_T(QUOT_0), ALT_T(SLSH_4),  GUI_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,            KC_QUES, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV),  _______,
+_______, KC_TILD,       UNDS_1,         LCBR_2,         RCBR_3,         KC_HASH,            _______, KC_LT,         KC_GT,          KC_AT,          KC_COLN,        _______,
                                         _______,        XXXXXXX,        MO(MAC_NUM),        XXXXXXX, XXXXXXX,       _______
 ),
 //====================================================================================================================================================================================
