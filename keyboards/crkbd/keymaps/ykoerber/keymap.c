@@ -157,9 +157,9 @@ _______, UG_TOGG,       UG_HUEU,        _______,        _______,        KC_VOLD,
                                         _______,        _______,        _______,        _______, _______,       _______
 ),
 [MAC_NUM] = LAYOUT_split_3x6_3(
-_______, _______,       KC_MNXT,        KC_MPLY,        KC_MNXT,        KC_MUTE,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         _______,
-_______, CTL_T(KC_0),   ALT_T(KC_4),    GUI_T(KC_5),    SFT_T(KC_ESC),  KC_VOLU,        _______, SFT_T(KC_F4),  GUI_T(KC_F5),   ALT_T(KC_F6),   KC_F11,  _______,
-_______, UG_TOGG,       UG_HUEU,        _______,        _______,        KC_VOLD,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         _______,
+KC_MPRV, KC_MNXT,       KC_7,        KC_8,        KC_9,        KC_MUTE,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         _______,
+UG_HUEU, CTL_T(KC_0),   ALT_T(KC_4),    GUI_T(KC_5),    SFT_T(KC_6),  KC_VOLU,        _______, SFT_T(KC_F4),  GUI_T(KC_F5),   ALT_T(KC_F6),   KC_F11,  _______,
+UG_TOGG, KC_MPLY,       KC_1,        KC_2,        KC_3,        KC_VOLD,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         _______,
                                         _______,        _______,        _______,        _______, _______,       _______
 )
 
