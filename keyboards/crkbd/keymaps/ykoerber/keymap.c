@@ -7,17 +7,7 @@ enum custom_keycodes {
   ARROW = SAFE_RANGE,
   COMMA_AND_QUEST_MARK,
   DOT_AND_EXCL_MARK,
-  KC_MY_ESC,
-  QUOT_0,
-  UNDS_1,
-  LCBR_2,
-  RCBR_3,
-  SLSH_4,
-  LBRC_5,
-  RBRC_6,
-  AMPR_7,
-  LPRN_8,
-  RPRN_9
+  KC_MY_ESC
 };
 
 #define DEFAULT 0
@@ -118,15 +108,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 [SYM] = LAYOUT_split_3x6_3(
-_______,  KC_PIPE,            AMPR_7,           LPRN_8,         RPRN_9,         KC_DLR,         _______, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
-_______,  GUI_T(QUOT_0),      ALT_T(SLSH_4),    CTL_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,        _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
-_______,  KC_TILD,            UNDS_1,           LCBR_2,         RCBR_3,         KC_HASH,        _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
+_______,  KC_PIPE,            KC_AMPR,           KC_LPRN,         KC_RPRN,         KC_DLR,         _______, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
+_______,  GUI_T(KC_QUOT),      ALT_T(KC_SLSH),    CTL_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,        _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
+_______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,         KC_HASH,        _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
                                                 _______,        _______,        MO(NUM),        _______, _______,       _______
 ),
 [MAC_SYM] = LAYOUT_split_3x6_3(
-_______, KC_PIPE,       AMPR_7,         LPRN_8,         RPRN_9,         KC_DLR,             KC_EXLM, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
-_______, CTL_T(QUOT_0), ALT_T(SLSH_4),  GUI_T(LBRC_5),  SFT_T(RBRC_6),  KC_DQUO,            KC_QUES, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV),  _______,
-_______, KC_TILD,       UNDS_1,         LCBR_2,         RCBR_3,         KC_HASH,            _______, KC_LT,         KC_GT,          KC_AT,          KC_COLN,        _______,
+_______, KC_PIPE,       KC_AMPR,         KC_LPRN,         KC_RPRN,         KC_DLR,             KC_EXLM, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
+_______, CTL_T(KC_QUOT), ALT_T(KC_SLSH),  GUI_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,            KC_QUES, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV),  _______,
+_______, KC_TILD,       KC_UNDS,         KC_LCBR,         KC_RCBR,         KC_HASH,            _______, KC_LT,         KC_GT,          KC_AT,          KC_COLN,        _______,
                                         _______,        XXXXXXX,        MO(MAC_NUM),        XXXXXXX, XXXXXXX,       _______
 ),
 //====================================================================================================================================================================================
@@ -261,124 +251,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             tap_code(KC_ESC);
             return false;
         }
-        //CTL_T(QUOT_0), ALT_T(SLSH_4), GUI_T(LBRC_5), SFT_T(RBRC_6)
-    case CTL_T(QUOT_0):
-    case GUI_T(QUOT_0):
-        if (record->event.pressed) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code16(KC_0);
-                set_mods(mods);
-            } else {
-                tap_code16(KC_QUOT);
-            }
-        }
-        return false;
-    case UNDS_1:
-        if (record->event.pressed) {
-            send_key_or_another_if_shifted(KC_UNDS, KC_1);
-        }
-        return false;
-    case LCBR_2:
-        if (record->event.pressed) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code16(KC_2);
-                set_mods(mods);
-            } else {
-                tap_code16(KC_LCBR);
-            }
-        }
-        return false;
-    case RCBR_3:
-        if (record->event.pressed) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code16(KC_3);
-                set_mods(mods);
-            } else {
-                tap_code16(KC_RCBR);
-            }
-        }
-        return false;
-    case ALT_T(SLSH_4):
-        if (record->event.pressed && record->tap.count > 0) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code16(KC_4);
-                set_mods(mods);
-            } else {
-                tap_code16(KC_SLSH);
-            }
-        }
-        return false;
-    case GUI_T(LBRC_5):
-    case CTL_T(LBRC_5):
-        if (record->event.pressed && record->tap.count) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code16(KC_5);
-                set_mods(mods);
-            } else {
-                tap_code16(KC_LBRC);
-            }
-        }
-        return false;
-    case SFT_T(RBRC_6):
-        if (record->event.pressed && record->tap.count) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code16(KC_6);
-                set_mods(mods);
-            } else {
-                tap_code16(KC_RBRC);
-            }
-        }
-        return false;
-    case AMPR_7:
-        if (record->event.pressed) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code16(KC_7);
-                set_mods(mods);
-            } else {
-                tap_code16(KC_AMPR);
-            }
-        }
-        return false;
-    case LPRN_8:
-        if (record->event.pressed) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code16(KC_8);
-                set_mods(mods);
-            } else {
-                tap_code16(KC_LPRN);
-            }
-        }
-        return false;
-    case RPRN_9:
-        if (record->event.pressed) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                del_oneshot_mods(MOD_MASK_SHIFT);
-                tap_code(KC_9);
-                set_mods(mods);
-            } else {
-                tap_code16(S(KC_0));
-            }
-        }
-        return false;
     }
-
     return true;
 }
 
