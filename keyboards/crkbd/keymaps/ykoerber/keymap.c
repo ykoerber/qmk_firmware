@@ -7,8 +7,11 @@ enum custom_keycodes {
   ARROW = SAFE_RANGE,
   COMMA_AND_QUEST_MARK,
   DOT_AND_EXCL_MARK,
-  KC_MY_ESC
+  KC_MY_ESC,
+  MAGIC
 };
+
+
 
 #define DEFAULT 0
 #define MAC_DEFAULT 1
@@ -50,7 +53,7 @@ const uint16_t PROGMEM reset_right_combo[] = {KC_Y, KC_P, KC_N, COMBO_END};
 const uint16_t PROGMEM mac_esc_combo[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM fj_combo[] = {HR_F, HR_J, COMBO_END};
 const uint16_t PROGMEM mouse_combo[] = {HR_F, KC_G, COMBO_END};
-const uint16_t PROGMEM switch_to_pc_combo[] = {KC_C, KC_V, KC_B, COMBO_END};
+const uint16_t PROGMEM switch_to_pc_combo[] = {KC_C, LT(MAC_SYM, KC_V), KC_B, COMBO_END};
 const uint16_t PROGMEM switch_to_mac_combo[] = {KC_N, KC_M, COMMA_AND_QUEST_MARK, COMBO_END};
 
 
@@ -71,14 +74,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                    KC_Y,       KC_U,      KC_I,                   KC_O,               KC_P,               OSM(MOD_RSFT),
     KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,           KC_G,                    KC_H,       HR_J,      CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN),     KC_ENTER,
     KC_TAB,         KC_Z,           KC_X,           KC_C,           LT(SYM, KC_V),  KC_B,                    KC_N,       KC_M,      COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  C(KC_BSPC),         KC_DEL,
-                                    MUTE,            PTT,           MY_SPACE,                               MO(SYM),    TO(MOUSE_LAYER),    MOUSECLICK
+                                    MUTE,            PTT,           MY_SPACE,                               OSL(SYM),    OSL(NUM),    MOUSECLICK
   ),
 
     [MAC_DEFAULT] = LAYOUT_split_3x6_3(
     _______,        _______,        _______,        _______,        _______,            _______,                    _______,        _______,                _______,    _______,    _______,    _______,
     _______,        CTL_T(KC_A),    _______,        GUI_T(KC_D),    _______,            _______,                    _______,        HR_J,                   HR_K,       HR_L,       HR_SCLN,    _______,
     _______,        _______,        _______,        _______,        LT(MAC_SYM, KC_V),  _______,                    _______,        LT(MAC_SYM, KC_M),                _______,    _______,    A(KC_BSPC), _______,
-                                                    _______,        _______,            MAC_MY_SPACE,               MO(MAC_SYM),    TO(MAC_MOUSE_LAYER),    _______
+                                                    _______,        _______,            MAC_MY_SPACE,               OSL(MAC_SYM),    OSL(MAC_NUM),    MAGIC
   ),
 
 
@@ -147,9 +150,9 @@ _______, UG_TOGG,       UG_HUEU,        _______,        _______,        KC_VOLD,
                                         _______,        _______,        _______,        _______, _______,       _______
 ),
 [MAC_NUM] = LAYOUT_split_3x6_3(
-KC_MPRV, KC_MNXT,       KC_7,        KC_8,        KC_9,        KC_MUTE,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         _______,
-UG_HUEU, CTL_T(KC_0),   ALT_T(KC_4),    GUI_T(KC_5),    SFT_T(KC_6),  KC_VOLU,        _______, SFT_T(KC_F4),  GUI_T(KC_F5),   ALT_T(KC_F6),   CTL_T(KC_F11),  _______,
-UG_TOGG, KC_MPLY,       KC_1,        KC_2,        KC_3,        KC_VOLD,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         _______,
+KC_MPRV, KC_MNXT,       KC_7,        KC_8,        KC_9,        _______,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         KC_MUTE,
+UG_HUEU, CTL_T(KC_0),   ALT_T(KC_4),    GUI_T(KC_5),    SFT_T(KC_6),  KC_DOT,        _______, SFT_T(KC_F4),  GUI_T(KC_F5),   ALT_T(KC_F6),   CTL_T(KC_F11),  KC_VOLU,
+UG_TOGG, KC_MPLY,       KC_1,        KC_2,        KC_3,     KC_COMM   ,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         KC_VOLD,
                                         _______,        _______,        _______,        _______, _______,       _______
 )
 
@@ -167,6 +170,27 @@ void send_key_or_another_if_shifted(int16_t keycode, int16_t keycode_shifted) {
     } else {
         tap_code16(keycode);
     }
+}
+
+
+uint16_t last_keys[3] = {KC_NO, KC_NO, KC_NO};
+
+bool last_key_is(uint16_t keycode) {
+    return last_keys[2] == keycode;
+}
+
+bool last_two_keys_are(uint16_t keycode1, uint16_t keycode2) {
+    return last_keys[1] == keycode1 && last_keys[2] == keycode2;
+}
+
+bool last_three_keys_are(uint16_t keycode1, uint16_t keycode2, uint16_t keycode3) {
+    return last_keys[0] == keycode1 && last_keys[1] == keycode2 && last_keys[2] == keycode3;
+}
+
+void consume_last_keys(void) {
+    last_keys[0] = KC_NO;
+    last_keys[1] = KC_NO;
+    last_keys[3] = KC_NO;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -252,6 +276,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         }
     }
+
+    if (record->event.pressed) {
+        // 1. Check if our special macro key was pressed
+        if (keycode == MAGIC) {
+            // Check if the history matches A then T
+            if (last_two_keys_are(KC_A, KC_T)) {
+                tap_code(KC_BSPC);
+                tap_code(KC_BSPC);
+                SEND_STRING("@");
+            } else if (last_three_keys_are(KC_A, KC_N, KC_D)) {
+               tap_code(KC_BSPC);
+               tap_code(KC_BSPC);
+               SEND_STRING("@");
+            } else {
+//                tap_code(last_keys[0]);
+//                tap_code(last_keys[1]);
+            }
+
+            // Clear history after using the macro key so it doesn't double-trigger
+//            last_keys[0] = KC_NO;
+//            last_keys[1] = KC_NO;
+            return false; // consume MAGIC
+        }
+
+
+        // 2. Update the history buffer for all other keys if they are alphas
+        uint16_t base_keycode = QK_MODS_GET_BASIC_KEYCODE(keycode);
+        if (base_keycode >= KC_A && base_keycode < KC_0) {
+            last_keys[0] = last_keys[1];
+            last_keys[1] = last_keys[2];
+            last_keys[2] = base_keycode;
+        }
+    }
+
     return true;
 }
 
