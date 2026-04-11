@@ -6,13 +6,17 @@ export MAKEFLAGS="CONVERT_TO=elite_pi"
 util/docker_build.sh splitkb/aurora/corne/rev1:ykoerber
 ```
 
-# Build Corne Choc Keyboard
+
+# Build Corne Choc Keyboard (new)
 ```bash
 export SKIP_FLASHING_SUPPORT=1
-export MAKEFLAGS=""  
-util/docker_build.sh crkbd/rev1:ykoerber
+export MAKEFLAGS="CONVERT_TO=elite_pi"  
+# links
+util/docker_build.sh crkbd/rev1:ykoerber EXTRAFLAGS="-DINIT_EE_HANDS_LEFT"
+# rechts
+util/docker_build.sh crkbd/rev1:ykoerber EXTRAFLAGS="-DINIT_EE_HANDS_RIGHT"
 ```
-flash with qmk toolbox
+
 
 ## Setting handiness
 - Copy eeprom-lefthand.eep and eeprom-righthand.eep from quantim/split_common in the qmk_toolbox app location

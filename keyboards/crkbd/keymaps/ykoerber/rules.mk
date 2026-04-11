@@ -17,7 +17,10 @@
 #ENCODER_ENABLE = yes
 #OLED_ENABLE = yes
 
-BOOTLOADER = atmel-dfu
+MCU = RP2040
+BOOTLOADER = rp2040
+BOARD = GENERIC_RP_RP2040_PFW # Oder das spezifische Board, falls bekannt
+EEPROM_DRIVER = vendor        # WICHTIG für EE_HANDS auf RP2040
 # RGB Matrix is enabled at the revision level,
 # while we use the regular RGB underglow for testing
 RGB_MATRIX_ENABLE = no
@@ -29,3 +32,4 @@ CAPS_WORD_ENABLE = yes
 COMMAND_ENABLE = no
 COMBO_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
+

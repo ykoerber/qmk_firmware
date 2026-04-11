@@ -36,7 +36,6 @@
 #define QUICK_TAP_TERM 0
 
 //handedness via EEPROM
-//todo enable this for the choc
 #define EE_HANDS
 
 
