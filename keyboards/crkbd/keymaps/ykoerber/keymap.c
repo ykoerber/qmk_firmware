@@ -119,7 +119,7 @@ _______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,      
 [MAC_SYM] = LAYOUT_split_3x6_3(
 _______, KC_PIPE,       KC_AMPR,         KC_LPRN,         KC_RPRN,         KC_DLR,             KC_EXLM, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
 _______, CTL_T(KC_QUOT), ALT_T(KC_SLSH),  GUI_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,            KC_QUES, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV),  _______,
-_______, KC_TILD,       KC_UNDS,         KC_LCBR,         KC_RCBR,         KC_HASH,            _______, KC_LT,         KC_GT,          KC_AT,          KC_COLN,        _______,
+_______, KC_TILD,       KC_UNDS,         KC_LCBR,         KC_RCBR,         KC_HASH,            _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
                                         _______,        XXXXXXX,        MO(MAC_NUM),        XXXXXXX, XXXXXXX,       _______
 ),
 //====================================================================================================================================================================================
@@ -144,9 +144,9 @@ _______, G(KC_Z),           G(KC_X),        G(KC_C),        G(KC_V),            
 
 //=======================================================================================================================================================================
 [NUM] = LAYOUT_split_3x6_3(
-_______, _______,       KC_MNXT,        KC_MPLY,        KC_MNXT,        KC_MUTE,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         _______,
-_______, GUI_T(KC_0),   ALT_T(KC_4),    CTL_T(KC_5),    SFT_T(KC_6),    KC_VOLU,        _______, SFT_T(KC_F4),  CTL_T(KC_F5),   ALT_T(KC_F6),   GUI_T(KC_F11),         _______,
-_______, UG_TOGG,       UG_HUEU,        _______,        _______,        KC_VOLD,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         _______,
+KC_MPRV, KC_MNXT,       KC_7,        KC_8,        KC_9,        _______,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         KC_MUTE,
+UG_HUEU, GUI_T(KC_0),   ALT_T(KC_4),    CTL_T(KC_5),    SFT_T(KC_6),    KC_DOT,        _______, SFT_T(KC_F4),  CTL_T(KC_F5),   ALT_T(KC_F6),   GUI_T(KC_F11),         KC_VOLU,
+UG_TOGG, KC_MPLY,       KC_1,        KC_2,        KC_3,        KC_COMM,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         KC_VOLD,
                                         _______,        _______,        _______,        _______, _______,       _______
 ),
 [MAC_NUM] = LAYOUT_split_3x6_3(
