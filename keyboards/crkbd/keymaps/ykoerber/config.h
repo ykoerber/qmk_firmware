@@ -25,6 +25,10 @@
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 #define COMBO_COUNT 2
 
+//mitigate switch chatter (one press registering as press-release-press),
+//which combined with QUICK_TAP_TERM 0 turns a held home row mod tap into "letter + mod hold"
+#define DEBOUNCE 10
+
 
 
 #define TAPPING_TERM 200
