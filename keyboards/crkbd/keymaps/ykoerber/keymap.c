@@ -353,6 +353,14 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
     );
 
 
+// holding both thumb keys (nav + sym) activates the num layer
+layer_state_t layer_state_set_user(layer_state_t state) {
+    state = update_tri_layer_state(state, SYM, NAV, NUM);
+    state = update_tri_layer_state(state, MAC_SYM, MAC_NAV, MAC_NUM);
+    return state;
+}
+
+
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     if (get_highest_layer(default_layer_state) == GAMING) {
         return false;
