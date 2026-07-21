@@ -8,46 +8,44 @@ enum custom_keycodes {
   COMMA_AND_QUEST_MARK,
   DOT_AND_EXCL_MARK,
   KC_MY_ESC,
-  MAGIC
+  MAGIC,
+  // OS switching: sets the ctrl<->gui swap and persists it to EEPROM
+  TO_PC,
+  TO_MAC,
+  // semantic keys whose PC/mac difference is more than the ctrl<->gui swap
+  DEL_WORD,      // delete previous word: ctrl-bspc on PC, alt-bspc on mac
+  NAV_BACK,      // browser back: KC_WBAK on PC, cmd-[ on mac
+  NAV_FWD,       // browser forward: KC_WFWD on PC, cmd-] on mac
+  CONTEXT_MENU,  // menu key on PC, hotkey chord on mac
+  TABS           // Meh chord sent literally, bypassing the ctrl<->gui swap
 };
 
 
 
 #define DEFAULT 0
-#define MAC_DEFAULT 1
-#define MOUSE_LAYER 2
-#define MAC_MOUSE_LAYER 3
-#define SCROLL_LAYER 4
-#define SYM 5
-#define MAC_SYM 6
-#define NAV 7
-#define MAC_NAV 8
-#define NUM 9
-#define MAC_NUM 10
-#define GAMING 11
-#define GAMING_NUM 12
+#define MOUSE_LAYER 1
+#define SCROLL_LAYER 2
+#define SYM 3
+#define NAV 4
+#define NUM 5
+#define GAMING 6
+#define GAMING_NUM 7
 
 
 #define PTT KC_F16
 #define MUTE A(S(KC_F18))
 #define BOOKMARKS HYPR(KC_B)
-#define TABS MEH(KC_F13)
-#define MAC_CONTEXT_MENU HYPR(KC_F12)
-#define MAC_CLIPBOARD_HISTORY C(G(KC_F13))
+//ctrl+gui chord: symmetric under the ctrl<->gui swap, so it works unchanged in both OS modes
+#define CLIPBOARD_HISTORY C(G(KC_F13))
 #define ACE_JUMP G(A(KC_F13))
 #define ACE_SCROLL S(G(A(KC_F13)))
 #define MY_SPACE LT(NAV, KC_SPC)
-#define MAC_MY_SPACE LT(MAC_NAV, KC_SPC)
+//the ctrl<->gui swap turns this into gui+alt+tab in mac mode
 #define SHOW_APPS C(A(KC_TAB))
-#define MAC_SHOW_APPS G(A(KC_TAB))
 #define MOUSECLICK KC_F19
-#define MAC_ESC LT(MAC_SYM, KC_ESC)
 #define PC_ESC LT(SYM, KC_ESC)
 #define HR_J SFT_T(KC_J)
 #define HR_F SFT_T(KC_F)
-#define HR_K GUI_T(KC_K)
-#define HR_L ALT_T(KC_L)
-#define HR_SCLN CTL_T(KC_SCLN)
 
 
 const uint16_t PROGMEM reset_left_combo[] = {KC_Q, KC_T, KC_B, COMBO_END};
@@ -55,8 +53,8 @@ const uint16_t PROGMEM reset_right_combo[] = {KC_Y, KC_P, KC_N, COMBO_END};
 const uint16_t PROGMEM mac_esc_combo[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM fj_combo[] = {HR_F, HR_J, COMBO_END};
 const uint16_t PROGMEM mouse_combo[] = {HR_F, KC_G, COMBO_END};
-const uint16_t PROGMEM switch_to_pc_combo[] = {KC_C, LT(MAC_SYM, KC_V), KC_B, COMBO_END};
-const uint16_t PROGMEM switch_to_mac_combo[] = {KC_N, KC_M, COMMA_AND_QUEST_MARK, COMBO_END};
+const uint16_t PROGMEM switch_to_pc_combo[] = {KC_C, LT(SYM, KC_V), KC_B, COMBO_END};
+const uint16_t PROGMEM switch_to_mac_combo[] = {KC_N, LT(SYM, KC_M), COMMA_AND_QUEST_MARK, COMBO_END};
 const uint16_t PROGMEM gaming_combo[] = {KC_T, KC_G, KC_B, COMBO_END};
 
 
@@ -65,9 +63,9 @@ combo_t key_combos[] = {
     COMBO(reset_right_combo, QK_BOOT),
     COMBO(mac_esc_combo, KC_MY_ESC),
     COMBO(fj_combo, CW_TOGG),
-    COMBO(mouse_combo, TO(MAC_MOUSE_LAYER)),
-    COMBO(switch_to_pc_combo, PDF(DEFAULT)),
-    COMBO(switch_to_mac_combo, PDF(MAC_DEFAULT)),
+    COMBO(mouse_combo, TO(MOUSE_LAYER)),
+    COMBO(switch_to_pc_combo, TO_PC),
+    COMBO(switch_to_mac_combo, TO_MAC),
     COMBO(gaming_combo, PDF(GAMING))
 };
 
@@ -75,34 +73,20 @@ combo_t key_combos[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //====================================================================================================================================================================================
   [DEFAULT] = LAYOUT_split_3x6_3(
-    OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                    KC_Y,       KC_U,      KC_I,                   KC_O,               KC_P,               OSM(MOD_RSFT),
-    KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,           KC_G,                    KC_H,       HR_J,      CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN),     KC_ENTER,
-    KC_TAB,         KC_Z,           KC_X,           KC_C,           LT(SYM, KC_V),  KC_B,                    KC_N,       KC_M,      COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  C(KC_BSPC),         KC_DEL,
-                                    MUTE,            PTT,           MY_SPACE,                               OSL(SYM),    OSL(NUM),    MOUSECLICK
+    OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                    KC_Y,       KC_U,             KC_I,                   KC_O,               KC_P,               OSM(MOD_RSFT),
+    KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,           KC_G,                    KC_H,       HR_J,             CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN),     KC_ENTER,
+    KC_TAB,         KC_Z,           KC_X,           KC_C,           LT(SYM, KC_V),  KC_B,                    KC_N,       LT(SYM, KC_M),    COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  DEL_WORD,           KC_DEL,
+                                    MUTE,            PTT,           MY_SPACE,                               OSL(SYM),    OSL(NUM),    MAGIC
   ),
-
-    [MAC_DEFAULT] = LAYOUT_split_3x6_3(
-    _______,        _______,        _______,        _______,        _______,            _______,                    _______,        _______,                _______,    _______,    _______,    _______,
-    _______,        CTL_T(KC_A),    _______,        GUI_T(KC_D),    _______,            _______,                    _______,        HR_J,                   HR_K,       HR_L,       HR_SCLN,    _______,
-    _______,        _______,        _______,        _______,        LT(MAC_SYM, KC_V),  _______,                    _______,        LT(MAC_SYM, KC_M),                _______,    _______,    A(KC_BSPC), _______,
-                                                    _______,        _______,            MAC_MY_SPACE,               OSL(MAC_SYM),    OSL(MAC_NUM),    MAGIC
-  ),
-
 
    //====================================================================================================================================================================================
 
   [MOUSE_LAYER] = LAYOUT_split_3x6_3(
-      _______, KC_WBAK, KC_WFWD, MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
+      _______, NAV_BACK, NAV_FWD, MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
       _______,KC_LCTL, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
       _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLL, MS_DOWN, MS_WHLR, XXXXXXX, _______,
                           _______,   TO(DEFAULT),   TO(DEFAULT),            TO(DEFAULT),   TO(DEFAULT), XXXXXXX
   ),
-  [MAC_MOUSE_LAYER] = LAYOUT_split_3x6_3(
-      _______,  G(KC_LBRC), G(KC_RBRC), MS_ACL2, MO(SCROLL_LAYER),  XXXXXXX,                    XXXXXXX,            MS_WHLU,            MS_UP,    MS_WHLD, XXXXXXX, _______,
-      _______,  KC_LGUI,    KC_LSFT,    MS_ACL1, MS_BTN1,           MS_BTN2,                    XXXXXXX,            MS_LEFT,            MS_DOWN,  MS_RGHT, XXXXXXX, _______,
-      _______,  XXXXXXX,    XXXXXXX,    XXXXXXX, MS_BTN3,           XXXXXXX,                    XXXXXXX,            MS_WHLR,            MS_DOWN,  MS_WHLL, XXXXXXX, _______,
-                                        _______, TO(MAC_DEFAULT),   TO(MAC_DEFAULT),            TO(MAC_DEFAULT),    TO(MAC_DEFAULT),    XXXXXXX
-    ),
   [SCROLL_LAYER] = LAYOUT_split_3x6_3(
       _______, _______, _______, _______, _______, _______,                      _______, _______, MS_WHLU, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,                      _______, MS_WHLR, MS_WHLD, MS_WHLL, _______, _______,
@@ -115,48 +99,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 [SYM] = LAYOUT_split_3x6_3(
-_______,  KC_PIPE,            KC_AMPR,           KC_LPRN,         KC_RPRN,         KC_DLR,         _______, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
-_______,  GUI_T(KC_QUOT),      ALT_T(KC_SLSH),    CTL_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,        _______, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
+_______,  KC_PIPE,            KC_AMPR,           KC_LPRN,         KC_RPRN,         KC_DLR,         KC_EXLM, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
+_______,  GUI_T(KC_QUOT),      ALT_T(KC_SLSH),    CTL_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,        KC_QUES, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
 _______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,         KC_HASH,        _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
                                                 _______,        _______,        MO(NUM),        _______, _______,       _______
-),
-[MAC_SYM] = LAYOUT_split_3x6_3(
-_______, KC_PIPE,       KC_AMPR,         KC_LPRN,         KC_RPRN,         KC_DLR,             KC_EXLM, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
-_______, CTL_T(KC_QUOT), ALT_T(KC_SLSH),  GUI_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,            KC_QUES, SFT_T(KC_EQL), GUI_T(KC_MINS), ALT_T(KC_BSLS), CTL_T(KC_GRV),  _______,
-_______, KC_TILD,       KC_UNDS,         KC_LCBR,         KC_RCBR,         KC_HASH,            _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
-                                        _______,        XXXXXXX,        MO(MAC_NUM),        XXXXXXX, XXXXXXX,       _______
 ),
 //====================================================================================================================================================================================
 
 
 [NAV] = LAYOUT_split_3x6_3(
-_______, _______,           _______,        _______,        TO(MOUSE_LAYER),    _______,                C(KC_Y), KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS, _______,
-_______, GUI_T(KC_DEL),     ALT_T(KC_TAB),  CTL_T(KC_BSPC), SFT_T(KC_ENTER),    KC_VOLU,                _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_APP, _______,
-_______, C(KC_Z),           C(KC_X),        C(KC_C),        C(KC_V),            KC_VOLD,                _______, KC_HOME, KC_END, SHOW_APPS, MUTE,    _______,
-                                            _______,        _______,            _______,                _______, _______, _______
-),
-
-[MAC_NAV] = LAYOUT_split_3x6_3(
-_______, _______,           _______,        _______,        TO(MAC_MOUSE_LAYER),    QK_REP,              G(KC_Y),               KC_PGUP,    KC_UP,      KC_PGDN,    KC_PAUS,            _______,
-_______, CTL_T(KC_DEL),     ALT_T(KC_TAB),  GUI_T(KC_BSPC), SFT_T(KC_ENTER),        MOUSECLICK,          MAC_CLIPBOARD_HISTORY, KC_LEFT,    KC_DOWN,    KC_RIGHT,   MAC_CONTEXT_MENU,   _______,
-_______, G(KC_Z),           G(KC_X),        G(KC_C),        G(KC_V),                MAC_SHOW_APPS,       TABS,                  KC_HOME,    KC_END,     KC_MY_ESC,  _______,            _______,
-                                            _______,        _______,                _______,             MO(MAC_NUM),           _______,    _______
+_______, _______,           _______,        _______,        TO(MOUSE_LAYER),    QK_REP,                 C(KC_Y),            KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS,       _______,
+_______, GUI_T(KC_DEL),     ALT_T(KC_TAB),  CTL_T(KC_BSPC), SFT_T(KC_ENTER),    MOUSECLICK,             CLIPBOARD_HISTORY,  KC_LEFT, KC_DOWN, KC_RIGHT, CONTEXT_MENU, _______,
+_______, C(KC_Z),           C(KC_X),        C(KC_C),        C(KC_V),            SHOW_APPS,              TABS,               KC_HOME, KC_END, KC_MY_ESC, MUTE,         _______,
+                                            _______,        _______,            _______,                MO(NUM),            _______, _______
 ),
 
 //====================================================================================================================================================================
 
-
-//=======================================================================================================================================================================
 [NUM] = LAYOUT_split_3x6_3(
 KC_MPRV, KC_MNXT,       KC_7,        KC_8,        KC_9,        _______,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         KC_MUTE,
 UG_HUEU, GUI_T(KC_0),   ALT_T(KC_4),    CTL_T(KC_5),    SFT_T(KC_6),    KC_DOT,        _______, SFT_T(KC_F4),  CTL_T(KC_F5),   ALT_T(KC_F6),   GUI_T(KC_F11),         KC_VOLU,
 UG_TOGG, KC_MPLY,       KC_1,        KC_2,        KC_3,        KC_COMM,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         KC_VOLD,
-                                        _______,        _______,        _______,        _______, _______,       _______
-),
-[MAC_NUM] = LAYOUT_split_3x6_3(
-KC_MPRV, KC_MNXT,       KC_7,        KC_8,        KC_9,        _______,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         KC_MUTE,
-UG_HUEU, CTL_T(KC_0),   ALT_T(KC_4),    GUI_T(KC_5),    SFT_T(KC_6),  KC_DOT,        _______, SFT_T(KC_F4),  GUI_T(KC_F5),   ALT_T(KC_F6),   CTL_T(KC_F11),  KC_VOLU,
-UG_TOGG, KC_MPLY,       KC_1,        KC_2,        KC_3,     KC_COMM   ,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         KC_VOLD,
                                         _______,        _______,        _______,        _______, _______,       _______
 ),
 
@@ -190,6 +153,12 @@ void send_key_or_another_if_shifted(int16_t keycode, int16_t keycode_shifted) {
     } else {
         tap_code16(keycode);
     }
+}
+
+
+// OS mode: the persisted ctrl<->gui swap doubles as the "we are on mac" flag
+static bool is_mac(void) {
+    return keymap_config.swap_lctl_lgui;
 }
 
 
@@ -261,20 +230,41 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         }
         return false;
-    case PC_ESC:
-        if (record->tap.count == 0) {
-            //key is being held => use normal LT behavior
-            return true;
-        } else if(record->event.pressed && is_caps_word_on()) {
-            caps_word_off();
-            return false;
-        } else if(record->event.pressed) {
-            tap_code(KC_ESC);
-            return false;
-        } else {
-            return false;
+    case TO_PC:
+    case TO_MAC:
+        if (record->event.pressed) {
+            keymap_config.swap_lctl_lgui = keymap_config.swap_rctl_rgui = (keycode == TO_MAC);
+            eeconfig_update_keymap(&keymap_config);
+            set_single_persistent_default_layer(DEFAULT);
         }
-    case MAC_ESC:
+        return false;
+    case DEL_WORD:
+        if (record->event.pressed) {
+            tap_code16(is_mac() ? A(KC_BSPC) : C(KC_BSPC));
+        }
+        return false;
+    case NAV_BACK:
+        if (record->event.pressed) {
+            tap_code16(is_mac() ? G(KC_LBRC) : KC_WBAK);
+        }
+        return false;
+    case NAV_FWD:
+        if (record->event.pressed) {
+            tap_code16(is_mac() ? G(KC_RBRC) : KC_WFWD);
+        }
+        return false;
+    case CONTEXT_MENU:
+        if (record->event.pressed) {
+            tap_code16(is_mac() ? HYPR(KC_F12) : KC_APP);
+        }
+        return false;
+    case TABS:
+        if (record->event.pressed) {
+            //tap_code16 bypasses the ctrl<->gui swap, so the OS-side hotkey always sees a real Meh chord
+            tap_code16(MEH(KC_F13));
+        }
+        return false;
+    case PC_ESC:
         if (record->tap.count == 0) {
             //key is being held => use normal LT behavior
             return true;
@@ -335,13 +325,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 
 
-#ifdef RGBLIGHT_ENABLE
 void keyboard_post_init_user(void) {
+#ifdef RGBLIGHT_ENABLE
 //   rgblight_enable_noeeprom(); // enables RGB, without saving settings
 //   rgblight_sethsv_noeeprom(HSV_RED); // sets the color to red without saving
 //   rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // sets mode to Fast breathing without saving
-}
 #endif
+
+    // heal a stale persisted default layer from EEPROM (layer numbers may
+    // change between flashes; only DEFAULT and GAMING are valid defaults)
+    uint8_t default_layer = get_highest_layer(default_layer_state);
+    if (default_layer != DEFAULT && default_layer != GAMING) {
+        set_single_persistent_default_layer(DEFAULT);
+    }
+}
 
 
 const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
@@ -353,10 +350,22 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
     );
 
 
-// holding both thumb keys (nav + sym) activates the num layer
+// holding both thumb keys (nav + sym) activates the num layer.
+// hand-rolled instead of update_tri_layer_state(), because that force-clears
+// NUM on every layer change and thereby breaks direct activation via
+// OSL(NUM) and MO(NUM)
 layer_state_t layer_state_set_user(layer_state_t state) {
-    state = update_tri_layer_state(state, SYM, NAV, NUM);
-    state = update_tri_layer_state(state, MAC_SYM, MAC_NAV, MAC_NUM);
+    static bool num_activated_by_tri = false;
+    const layer_state_t sym_and_nav = ((layer_state_t)1 << SYM) | ((layer_state_t)1 << NAV);
+    if ((state & sym_and_nav) == sym_and_nav) {
+        if (!(state & ((layer_state_t)1 << NUM))) {
+            num_activated_by_tri = true;
+        }
+        state |= (layer_state_t)1 << NUM;
+    } else if (num_activated_by_tri) {
+        state &= ~((layer_state_t)1 << NUM);
+        num_activated_by_tri = false;
+    }
     return state;
 }
 
