@@ -43,7 +43,6 @@ enum custom_keycodes {
 //the ctrl<->gui swap turns this into gui+alt+tab in mac mode
 #define SHOW_APPS C(A(KC_TAB))
 #define MOUSECLICK KC_F19
-#define PC_ESC LT(SYM, KC_ESC)
 #define HR_J SFT_T(KC_J)
 #define HR_F SFT_T(KC_F)
 
@@ -75,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [DEFAULT] = LAYOUT_split_3x6_3(
     OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                    KC_Y,       KC_U,             KC_I,                   KC_O,               KC_P,               OSM(MOD_RSFT),
     KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,           KC_G,                    KC_H,       HR_J,             CTL_T(KC_K),            ALT_T(KC_L),        GUI_T(KC_SCLN),     KC_ENTER,
-    KC_TAB,         KC_Z,           KC_X,           KC_C,           LT(SYM, KC_V),  KC_B,                    KC_N,       LT(SYM, KC_M),    COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  DEL_WORD,           KC_DEL,
+    KC_TAB,         KC_Z,           KC_X,           KC_C,           LT(SYM, KC_V),  KC_B,                    KC_N,       LT(NUM, KC_M),    COMMA_AND_QUEST_MARK,   DOT_AND_EXCL_MARK,  DEL_WORD,           KC_DEL,
                                     MUTE,            PTT,           MY_SPACE,                               OSL(SYM),    OSL(NUM),    MAGIC
   ),
 
@@ -108,18 +107,18 @@ _______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,      
 
 
 [NAV] = LAYOUT_split_3x6_3(
-_______, _______,           _______,        _______,        TO(MOUSE_LAYER),    QK_REP,                 C(KC_Y),            KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS,       _______,
-_______, GUI_T(KC_DEL),     ALT_T(KC_TAB),  CTL_T(KC_BSPC), SFT_T(KC_ENTER),    MOUSECLICK,             CLIPBOARD_HISTORY,  KC_LEFT, KC_DOWN, KC_RIGHT, CONTEXT_MENU, _______,
-_______, C(KC_Z),           C(KC_X),        C(KC_C),        C(KC_V),            SHOW_APPS,              TABS,               KC_HOME, KC_END, KC_MY_ESC, MUTE,         _______,
+_______, _______,           _______,        MAGIC,          TO(MOUSE_LAYER),    QK_REP,                 C(KC_Y),            KC_PGUP,  KC_UP,  KC_PGDN, KC_PAUS,       _______,
+MUTE, GUI_T(KC_DEL),     ALT_T(KC_TAB),  CTL_T(KC_BSPC), SFT_T(KC_ENTER),    MOUSECLICK,             CLIPBOARD_HISTORY,  KC_LEFT, KC_DOWN, KC_RIGHT, CONTEXT_MENU, _______,
+_______, C(KC_Z),           C(KC_X),        C(KC_C),        C(KC_V),            SHOW_APPS,              TABS,               KC_HOME, KC_END, KC_MY_ESC,  _______,         _______,
                                             _______,        _______,            _______,                MO(NUM),            _______, _______
 ),
 
 //====================================================================================================================================================================
 
 [NUM] = LAYOUT_split_3x6_3(
-KC_MPRV, KC_MNXT,       KC_7,        KC_8,        KC_9,        _______,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,         KC_MUTE,
-UG_HUEU, GUI_T(KC_0),   ALT_T(KC_4),    CTL_T(KC_5),    SFT_T(KC_6),    KC_DOT,        _______, SFT_T(KC_F4),  CTL_T(KC_F5),   ALT_T(KC_F6),   GUI_T(KC_F11),         KC_VOLU,
-UG_TOGG, KC_MPLY,       KC_1,        KC_2,        KC_3,        KC_COMM,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,         KC_VOLD,
+KC_MPRV, KC_MNXT,       KC_7,        KC_8,        KC_9,        _______,        _______, KC_F7,         KC_F8,          KC_F9,          KC_F10,          KC_VOLU,
+UG_HUEU, GUI_T(KC_0),   ALT_T(KC_4),    CTL_T(KC_5),    SFT_T(KC_6),    KC_DOT,        _______, SFT_T(KC_F4),  CTL_T(KC_F5),   ALT_T(KC_F6),   GUI_T(KC_F11),      KC_VOLD,
+UG_TOGG, KC_MPLY,       KC_1,        KC_2,        KC_3,        KC_COMM,        _______, KC_F1,         KC_F2,          KC_F3,          KC_F12,          KC_MUTE,
                                         _______,        _______,        _______,        _______, _______,       _______
 ),
 
@@ -267,19 +266,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             tap_code16(MEH(KC_F13));
         }
         return false;
-    case PC_ESC:
-        if (record->tap.count == 0) {
-            //key is being held => use normal LT behavior
-            return true;
-        } else if(record->event.pressed && is_caps_word_on()) {
-            caps_word_off();
-            return false;
-        } else if(record->event.pressed) {
-            tap_code(KC_ESC);
-            return false;
-        } else {
-            return false;
-        }
     case KC_MY_ESC:
         if(record->event.pressed && is_caps_word_on()) {
             caps_word_off();
@@ -304,7 +290,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                tap_code(KC_BSPC);
                tap_code(KC_BSPC);
                tap_code(KC_BSPC);
-               SEND_STRING("@");
+               SEND_STRING("&&");
                consume_last_keys();
             }
             return false; // consume MAGIC
