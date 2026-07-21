@@ -196,9 +196,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 del_oneshot_mods(MOD_MASK_SHIFT);
                 SEND_STRING("=>");
                 set_mods(mods);            // Restore mods.
-            } else if ((mods | oneshot_mods) & MOD_MASK_CTRL) {  // Is ctrl held?
-                del_mods(MOD_MASK_CTRL);
-                del_oneshot_mods(MOD_MASK_CTRL);
+            } else if ((mods | oneshot_mods) & (MOD_MASK_CTRL | MOD_MASK_GUI)) {
+                // ctrl or gui held? gui counts too so the same physical key
+                // works in mac mode, where the ctrl<->gui swap turns the
+                // ctrl mod-tap into gui
+                del_mods(MOD_MASK_CTRL | MOD_MASK_GUI);
+                del_oneshot_mods(MOD_MASK_CTRL | MOD_MASK_GUI);
                 SEND_STRING("|>");
                 set_mods(mods);
             } else {
