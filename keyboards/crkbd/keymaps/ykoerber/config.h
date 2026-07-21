@@ -23,7 +23,6 @@
 //#define SERIAL_PIO_USE_PIO1
 
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
-#define COMBO_COUNT 2
 
 //mitigate switch chatter (one press registering as press-release-press),
 //which combined with QUICK_TAP_TERM 0 turns a held home row mod tap into "letter + mod hold"
@@ -53,9 +52,8 @@
 // holding keys for changing speed
 #define MK_MOMENTARY_ACCEL
 //set speed settings
-#define MOUSEKEY_INTERVAL_UNMOD 11
+#define MK_C_INTERVAL_UNMOD 11
 #define MK_C_OFFSET_UNMOD 24
 #define MK_C_OFFSET_2 60
 
-#define MOUSEKEY_INTERVAL_1 11
-//#define MK_C_OFFSET_UNMOD 24
+#define MK_C_INTERVAL_1 11

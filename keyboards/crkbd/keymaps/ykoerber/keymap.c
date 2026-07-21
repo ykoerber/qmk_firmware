@@ -82,14 +82,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    //====================================================================================================================================================================================
 
   [MOUSE_LAYER] = LAYOUT_split_3x6_3(
-      _______, NAV_BACK, NAV_FWD, MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,                      XXXXXXX, MS_WHLU, MS_UP, MS_WHLD, XXXXXXX, _______,
-      _______,KC_LCTL, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                     XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
-      _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, MS_WHLL, MS_DOWN, MS_WHLR, XXXXXXX, _______,
+      _______, NAV_BACK, NAV_FWD, MS_ACL2, MO(SCROLL_LAYER), XXXXXXX,           XXXXXXX, XXXXXXX, MS_UP, XXXXXXX, XXXXXXX, _______,
+      _______,KC_LCTL, KC_LSFT, MS_ACL1, MS_BTN1, MS_BTN2,                      XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX, _______,
+      _______,XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN3, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
                           _______,   TO(DEFAULT),   TO(DEFAULT),            TO(DEFAULT),   TO(DEFAULT), XXXXXXX
   ),
   [SCROLL_LAYER] = LAYOUT_split_3x6_3(
       _______, _______, _______, _______, _______, _______,                      _______, _______, MS_WHLU, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,                      _______, MS_WHLR, MS_WHLD, MS_WHLL, _______, _______,
+      _______, _______, _______, _______, _______, _______,                      _______, MS_WHLL, MS_WHLD, MS_WHLR, _______, _______,
       _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
                                    _______, _______,   _______,                  _______, _______, _______
     ),
@@ -101,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [SYM] = LAYOUT_split_3x6_3(
 _______,  KC_PIPE,            KC_AMPR,           KC_LPRN,         KC_RPRN,         KC_DLR,         KC_EXLM, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
 _______,  GUI_T(KC_QUOT),      ALT_T(KC_SLSH),    CTL_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,        KC_QUES, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
-_______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,         KC_HASH,        _______, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
+_______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,         KC_HASH,        ARROW, KC_AT,         KC_LT,          KC_GT,          KC_COLN,        _______,
                                                 _______,        _______,        MO(NUM),        _______, _______,       _______
 ),
 //====================================================================================================================================================================================
@@ -179,7 +179,7 @@ bool last_three_keys_are(uint16_t keycode1, uint16_t keycode2, uint16_t keycode3
 void consume_last_keys(void) {
     last_keys[0] = KC_NO;
     last_keys[1] = KC_NO;
-    last_keys[3] = KC_NO;
+    last_keys[2] = KC_NO;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -295,18 +295,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code(KC_BSPC);
                 tap_code(KC_BSPC);
                 SEND_STRING("@");
+                // clear history so a second MAGIC press doesn't fire again on stale keys
+                consume_last_keys();
             } else if (last_three_keys_are(KC_A, KC_N, KC_D)) {
                tap_code(KC_BSPC);
                tap_code(KC_BSPC);
+               tap_code(KC_BSPC);
                SEND_STRING("@");
-            } else {
-//                tap_code(last_keys[0]);
-//                tap_code(last_keys[1]);
+               consume_last_keys();
             }
-
-            // Clear history after using the macro key so it doesn't double-trigger
-//            last_keys[0] = KC_NO;
-//            last_keys[1] = KC_NO;
             return false; // consume MAGIC
         }
 
