@@ -60,7 +60,7 @@ const uint16_t PROGMEM mac_esc_combo[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM fj_combo[] = {HR_F, HR_J, COMBO_END};
 const uint16_t PROGMEM mouse_combo[] = {HR_F, KC_G, COMBO_END};
 const uint16_t PROGMEM switch_to_pc_combo[] = {KC_C, LT(SYM, KC_V), KC_B, COMBO_END};
-const uint16_t PROGMEM switch_to_mac_combo[] = {KC_N, LT(SYM, KC_M), COMMA_AND_SEMICOLON, COMBO_END};
+const uint16_t PROGMEM switch_to_mac_combo[] = {KC_N, LT(NUM, KC_M), COMMA_AND_SEMICOLON, COMBO_END};
 const uint16_t PROGMEM gaming_combo[] = {KC_T, KC_G, KC_B, COMBO_END};
 
 
@@ -109,8 +109,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [SYM] = LAYOUT_split_3x6_3(
 _______,  KC_PIPE,            KC_AMPR,           KC_LPRN,         KC_RPRN,         KC_DLR,         KC_EXLM, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
-_______,  GUI_T(KC_QUOT),      ALT_T(KC_SLSH),    CTL_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,        KC_QUES, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
-_______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,         KC_HASH,        ARROW,  KC_LT,          KC_GT,     KC_AT,     KC_COLN,        _______,
+_______,  GUI_T(KC_QUOT),      ALT_T(KC_SLSH),    CTL_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,       KC_QUES, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
+_______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,         KC_HASH,        KC_SCLN,  KC_LT,          KC_GT,     KC_AT,     KC_COLN,        _______,
                                                 _______,        _______,        MO(NUM),        _______, _______,       _______
 ),
 //====================================================================================================================================================================================
@@ -184,6 +184,9 @@ static bool is_mac(void) {
 
 
 uint16_t last_keys[3] = {KC_NO, KC_NO, KC_NO};
+// parallel to last_keys: whether that key was typed as a capital (shift or caps word).
+// only letters ever record true; everything else pushes false.
+bool last_keys_caps[3] = {false, false, false};
 
 bool last_key_is(uint16_t keycode) {
     return last_keys[2] == keycode;
@@ -201,6 +204,9 @@ void consume_last_keys(void) {
     last_keys[0] = KC_NO;
     last_keys[1] = KC_NO;
     last_keys[2] = KC_NO;
+    last_keys_caps[0] = false;
+    last_keys_caps[1] = false;
+    last_keys_caps[2] = false;
 }
 
 // a backspace erased the character the newest entry stands for, so drop that entry and let
@@ -209,12 +215,18 @@ void undo_last_key(void) {
     last_keys[2] = last_keys[1];
     last_keys[1] = last_keys[0];
     last_keys[0] = KC_NO;
+    last_keys_caps[2] = last_keys_caps[1];
+    last_keys_caps[1] = last_keys_caps[0];
+    last_keys_caps[0] = false;
 }
 
-void push_last_key(uint16_t token) {
+void push_last_key(uint16_t token, bool caps) {
     last_keys[0] = last_keys[1];
     last_keys[1] = last_keys[2];
     last_keys[2] = token;
+    last_keys_caps[0] = last_keys_caps[1];
+    last_keys_caps[1] = last_keys_caps[2];
+    last_keys_caps[2] = caps;
 }
 
 // what MAGIC remembers a key as, or KC_NO for keys it has no rules for.
@@ -256,20 +268,35 @@ static uint16_t closing_bracket_for(uint16_t token) {
 }
 
 // a single key MAGIC swaps for a punctuation mark. only consulted after the longer
-// sequences, which is what keeps "and" from being swallowed by the "d" rule.
-// the dot and comma entries make MAGIC an escalator: . becomes : and , becomes ; -
-// and because the produced mark is recorded again, d MAGIC MAGIC walks d -> . -> :
+// sequences, which is what keeps "at" from being swallowed by the "a" rule.
 static uint16_t magic_punctuation_for(uint16_t token) {
     switch (token) {
-        case KC_F:    return KC_QUES;
-        case KC_A:    return KC_EXLM;
-        case KC_D:    return KC_DOT;
-        case KC_C:    return KC_COMM;
-        case KC_S:    return KC_SCLN;
-        case KC_DOT:  return KC_COLN;
-        case KC_COMM: return KC_SCLN;
+        case KC_F: return KC_QUES;
+        case KC_A: return KC_EXLM;
     }
     return KC_NO;
+}
+
+// replaces the two trigger letters on screen with an umlaut. the capital comes out when
+// shift is held (or one-shot) during MAGIC, or when the first trigger letter was itself
+// typed as a capital ("Ae" -> "Ä"). shift is lifted first so the two backspaces delete
+// normally, then added into the chord itself.
+// PC: AltGr chords from keymap_us_international.h (US intl layout on the host).
+// mac: custom host keymap that puts the umlauts on alt+letter, capitals on shift+alt+letter.
+// alt is untouched by the ctrl<->gui swap, so tap_code16 sends it as-is in both modes.
+static void magic_umlaut(uint16_t pc_chord, uint16_t mac_chord) {
+    const uint8_t mods = get_mods();
+    const uint8_t oneshot_mods = get_oneshot_mods();
+    // last_keys_caps[1] is the first of the two trigger letters
+    const bool shifted = ((mods | oneshot_mods) & MOD_MASK_SHIFT) || last_keys_caps[1];
+    del_mods(MOD_MASK_SHIFT);
+    del_oneshot_mods(MOD_MASK_SHIFT);
+    tap_code(KC_BSPC);
+    tap_code(KC_BSPC);
+    const uint16_t chord = is_mac() ? mac_chord : pc_chord;
+    tap_code16(shifted ? S(chord) : chord);
+    set_mods(mods);
+    consume_last_keys();
 }
 
 // everything MAGIC can do, reachable from both the plain MAGIC key and the tap side of
@@ -308,6 +335,19 @@ static void magic_activate(void) {
         tap_code(KC_LEFT);
         consume_last_keys();
 
+    // umlauts: ae/oe/ue/ss + MAGIC become the real mark. shift during MAGIC or a
+    // capital first trigger letter ("Ae") capitalises.
+    // note shift+ß: the mac keymap decides what shift+alt+s is; on PC it lands on
+    // shift+AltGr+s, which US intl maps to § rather than a capital ẞ.
+    } else if (last_two_keys_are(KC_A, KC_E)) {
+        magic_umlaut(US_ADIA, A(KC_A));
+    } else if (last_two_keys_are(KC_O, KC_E)) {
+        magic_umlaut(US_ODIA, A(KC_O));
+    } else if (last_two_keys_are(KC_U, KC_E)) {
+        magic_umlaut(US_UDIA, A(KC_U));
+    } else if (last_two_keys_are(KC_S, KC_S)) {
+        magic_umlaut(US_SS, A(KC_S));
+
     // one key. an opening bracket gains its partner, so no bspc there - the bracket
     // itself stays on screen. a letter is replaced by its punctuation mark.
     } else if (closer != KC_NO) {
@@ -316,16 +356,16 @@ static void magic_activate(void) {
     } else if (punct != KC_NO) {
         tap_code(KC_BSPC);
         tap_code16(punct);
-        // remember the mark now on screen instead of clearing outright, so MAGIC can
-        // escalate its own output: d MAGIC MAGIC walks d -> . -> :
+        // remember the mark now on screen instead of clearing outright, so the
+        // history keeps matching what is actually in front of the cursor
         consume_last_keys();
-        push_last_key(punct);
+        push_last_key(punct, false);
     // a backspace escalates into a word deletion. this one re-arms itself instead of
     // clearing, so holding the thought and tapping MAGIC again eats the next word too.
     } else if (last_key_is(KC_BSPC)) {
         tap_code16(is_mac() ? A(KC_BSPC) : C(KC_BSPC));
         consume_last_keys();
-        push_last_key(KC_BSPC);
+        push_last_key(KC_BSPC, false);
     }
 }
 
@@ -363,14 +403,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             const bool shifted = (mods | oneshot_mods) & MOD_MASK_SHIFT;
             send_key_or_another_if_shifted(KC_COMM, KC_SCLN);
-            push_last_key(shifted ? KC_SCLN : KC_COMM);
+            push_last_key(shifted ? KC_SCLN : KC_COMM, false);
         }
         return false;
     case DOT_AND_COLON:
         if (record->event.pressed) {
             const bool shifted = (mods | oneshot_mods) & MOD_MASK_SHIFT;
             send_key_or_another_if_shifted(KC_DOT, KC_COLN);
-            push_last_key(shifted ? KC_COLN : KC_DOT);
+            push_last_key(shifted ? KC_COLN : KC_DOT, false);
         }
         return false;
     case TO_PC:
@@ -460,7 +500,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // rewind past the character that just died, then remember the backspace
                 // itself so a following MAGIC can escalate it into a word deletion
                 undo_last_key();
-                push_last_key(KC_BSPC);
+                push_last_key(KC_BSPC, false);
             }
             return true;
         }
@@ -473,10 +513,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
         }
 
-        // 4. Update the history buffer; keys MAGIC has no rules for leave it alone
+        // 4. Update the history buffer; keys MAGIC has no rules for leave it alone.
+        //    letters also remember whether they came out as a capital - via held/one-shot
+        //    shift or caps word - so MAGIC can match the case of what is on screen.
         const uint16_t token = magic_token_for(keycode);
         if (token != KC_NO) {
-            push_last_key(token);
+            const bool caps = token >= KC_A && token <= KC_Z
+                              && (((mods | oneshot_mods) & MOD_MASK_SHIFT) || is_caps_word_on());
+            push_last_key(token, caps);
         }
     }
 
