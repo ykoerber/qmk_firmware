@@ -101,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     OSM(MOD_LSFT),  KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                    KC_Y,       KC_U,             KC_I,                   KC_O,               KC_P,               OSM(MOD_RSFT),
     KC_BSPC,        GUI_T(KC_A),    ALT_T(KC_S),    CTL_T(KC_D),    HR_F,           KC_G,                    KC_H,       HR_J,             CTL_T(KC_K),            ALT_T(KC_L),        HR_MAGIC,           KC_ENTER,
     KC_TAB,         KC_Z,           KC_X,           KC_C,           LT(SYM, KC_V),  KC_B,                    KC_N,       LT(NUM, KC_M),    COMMA_AND_SEMICOLON,    DOT_AND_COLON,      GUI_T(KC_SCLN),     KC_DEL,
-                                    MUTE,            PTT,           MY_SPACE,                               OSL(SYM),    OSL(NUM),    MAGIC
+                                    MUTE,            PTT,           MY_SPACE,                               OSL(SYM),    OSL(NUM),    KC_F20
   ),
 
    //====================================================================================================================================================================================
