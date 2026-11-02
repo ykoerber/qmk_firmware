@@ -45,6 +45,9 @@
 // achordion :D
 #define CHORDAL_HOLD
 
+// the two-thumb NUM chord gets its own, wider combo window (see get_combo_term)
+#define COMBO_TERM_PER_COMBO
+
 
 // mouse stuff
 //constant cursor speed

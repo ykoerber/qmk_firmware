@@ -27,7 +27,6 @@
 #endif
 
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
-#define COMBO_COUNT 3
 //rgb
 #define RGBLIGHT_DEFAULT_HUE 169
 
@@ -42,6 +41,9 @@
 
 // achordion :D
 #define CHORDAL_HOLD
+
+// the two-thumb NUM chord gets its own, wider combo window (see get_combo_term)
+#define COMBO_TERM_PER_COMBO
 
 
 // mouse stuff

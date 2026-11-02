@@ -62,6 +62,12 @@ const uint16_t PROGMEM mouse_combo[] = {HR_F, KC_G, COMBO_END};
 const uint16_t PROGMEM switch_to_pc_combo[] = {KC_C, LT(SYM, KC_V), KC_B, COMBO_END};
 const uint16_t PROGMEM switch_to_mac_combo[] = {KC_N, LT(NUM, KC_M), COMMA_AND_SEMICOLON, COMBO_END};
 const uint16_t PROGMEM gaming_combo[] = {KC_T, KC_G, KC_B, COMBO_END};
+// pressing both inner thumbs near-simultaneously goes straight to NUM. a combo is
+// matched before the tap-hold engine runs, so this cannot lose the race where a fast
+// chord resolves LT(NAV, KC_SPC) as a tap (stray space + one-shot SYM instead of NUM).
+// a combo also releases only when its *last* key goes up, so either thumb may lift
+// while the other keeps NUM held.
+const uint16_t PROGMEM thumb_num_combo[] = {MY_SPACE, OSL(SYM), COMBO_END};
 
 
 combo_t key_combos[] = {
@@ -72,8 +78,18 @@ combo_t key_combos[] = {
     COMBO(mouse_combo, TO(MOUSE_LAYER)),
     COMBO(switch_to_pc_combo, TO_PC),
     COMBO(switch_to_mac_combo, TO_MAC),
-    COMBO(gaming_combo, PDF(GAMING))
+    COMBO(gaming_combo, PDF(GAMING)),
+    COMBO(thumb_num_combo, MO(NUM))
 };
+
+// the thumb NUM chord is a deliberate two-key press, not a typing roll, so it gets a
+// wider window than the letter combos (which must stay tight to survive fast rolls)
+uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
+    if (combo->keycode == MO(NUM)) {
+        return 80;
+    }
+    return COMBO_TERM;
+}
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -111,7 +127,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 _______,  KC_PIPE,            KC_AMPR,           KC_LPRN,         KC_RPRN,         KC_DLR,         KC_EXLM, KC_PERC,       KC_PPLS,        KC_ASTR,        KC_CIRC,        _______,
 _______,  GUI_T(KC_QUOT),      ALT_T(KC_SLSH),    CTL_T(KC_LBRC),  SFT_T(KC_RBRC),  KC_DQUO,       KC_QUES, SFT_T(KC_EQL), CTL_T(KC_MINS), ALT_T(KC_BSLS), GUI_T(KC_GRV),  _______,
 _______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,         KC_HASH,        KC_SCLN,  KC_LT,          KC_GT,     KC_AT,     KC_COLN,        _______,
-                                                _______,        _______,        MO(NUM),        _______, _______,       _______
+                                                _______,        _______,        MO(NAV),        _______, _______,       _______
 ),
 //====================================================================================================================================================================================
 
@@ -132,7 +148,7 @@ _______,  KC_TILD,            KC_UNDS,           KC_LCBR,         KC_RCBR,      
 TABS,               SHOW_APPS,  TO(MOUSE_LAYER),  RGRID,       NAV_BACK,  NAV_FWD,          XXXXXXX,    KC_PGUP,  KC_UP,    KC_PGDN,    KC_PAUS,       _______,
 MUTE,               KC_LGUI,    KC_LALT,          KC_LCTL,     KC_LSFT,   QK_REP,           WIN_CYCLE,  KC_LEFT,  KC_DOWN,  KC_RIGHT,   CONTEXT_MENU,  _______,
 CLIPBOARD_HISTORY,  C(KC_Z),    C(KC_X),          C(KC_C),     C(KC_V),   C(KC_Y),          XXXXXXX,    KC_HOME,  KC_END,   KC_MY_ESC,  DEL_WORD,      _______,
-                                                  _______,     _______,   _______,          MO(NUM),  _______,  _______
+                                                  _______,     _______,   _______,          MO(SYM),  _______,  _______
 ),
 
 //====================================================================================================================================================================
@@ -554,21 +570,31 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
     );
 
 
-// holding both thumb keys (nav + sym) activates the num layer.
+// holding both thumb keys (nav + sym) activates the num layer. once activated,
+// NUM stays on while either of the two layers is still held, so one thumb can
+// lift and the other keeps the layer - in both directions. only releasing both
+// leaves NUM.
+// this handles the *sequential* chords: one thumb held long enough for its layer
+// to be on, then the other thumb pressed - which lands on MO(SYM) / MO(NAV) of the
+// already-active layer, so both bits are set and the latch arms. near-simultaneous
+// chords never reach this code; thumb_num_combo catches those before the tap-hold
+// engine can misresolve LT(NAV, KC_SPC) as a tap.
 // hand-rolled instead of update_tri_layer_state(), because that force-clears
 // NUM on every layer change and thereby breaks direct activation via
-// OSL(NUM) and MO(NUM)
+// OSL(NUM) and LT(NUM, KC_M)
 layer_state_t layer_state_set_user(layer_state_t state) {
     static bool num_activated_by_tri = false;
     const layer_state_t sym_and_nav = ((layer_state_t)1 << SYM) | ((layer_state_t)1 << NAV);
-    if ((state & sym_and_nav) == sym_and_nav) {
-        if (!(state & ((layer_state_t)1 << NUM))) {
-            num_activated_by_tri = true;
+    if ((state & sym_and_nav) == sym_and_nav && !(state & ((layer_state_t)1 << NUM))) {
+        num_activated_by_tri = true;
+    }
+    if (num_activated_by_tri) {
+        if (state & sym_and_nav) {
+            state |= (layer_state_t)1 << NUM;
+        } else {
+            state &= ~((layer_state_t)1 << NUM);
+            num_activated_by_tri = false;
         }
-        state |= (layer_state_t)1 << NUM;
-    } else if (num_activated_by_tri) {
-        state &= ~((layer_state_t)1 << NUM);
-        num_activated_by_tri = false;
     }
     return state;
 }
